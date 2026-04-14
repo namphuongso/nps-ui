@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.nps-ui-style-placeholder {
+  display: contents;
+}
