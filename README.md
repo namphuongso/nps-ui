@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/namphuongso/nps-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/namphuongso/nps-ui/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![npm version](https://img.shields.io/npm/v/@namphuongso/nps-ui.svg)](https://www.npmjs.com/package/@namphuongso/nps-ui)
+[![npm version](https://img.shields.io/npm/v/@namphuongtechnologi/nps-ui.svg)](https://www.npmjs.com/package/@namphuongtechnologi/nps-ui)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 Thư viện Component chuyên nghiệp dựa trên Ant Design và Tailwind CSS, dành riêng cho hệ sinh thái Nam Phương.
@@ -11,7 +11,7 @@ Thư viện Component chuyên nghiệp dựa trên Ant Design và Tailwind CSS, 
 
 ## 🏗️ Cấu trúc dự án (Monorepo)
 
-- **`packages/ui`**: Chứa mã nguồn của bộ thư viện `@namphuongso/nps-ui`.
+- **`packages/ui`**: Chứa mã nguồn của bộ thư viện `@namphuongtechnologi/nps-ui`.
 - **`apps/docs`**: Website tài liệu, hướng dẫn và demo tương tác (Vite + React).
 
 ---

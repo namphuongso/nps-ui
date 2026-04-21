@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev:docs": "npm run dev --workspace docs",
-    "build:ui": "npm run build --workspace @namphuongso/nps-ui",
+    "build:ui": "npm run build --workspace @namphuongtechnologi/nps-ui",
     "build:docs": "npm run build --workspace docs",
     "build": "npm run build:ui && npm run build:docs",
     "lint": "eslint . --ext .ts,.tsx",

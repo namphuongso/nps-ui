@@ -125,7 +125,7 @@ export function ButtonPage() {
           <Typography.Text code>ButtonProps</Typography.Text>.
         </>
       }
-      importSnippet={`import { NpsButton } from "@namphuongso/nps-ui";`}
+      importSnippet={`import { NpsButton } from "@namphuongtechnologi/nps-ui";`}
       whenToUse={[
         "Khi cần trigger một hành động hoặc sự kiện.",
         "Sử dụng type primary cho hành động chính và default cho hành động phụ.",

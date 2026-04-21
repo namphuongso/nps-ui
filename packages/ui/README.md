@@ -3,8 +3,8 @@
   <p>Thư viện UI Component React xây dựng trên nền tảng Ant Design và Tailwind CSS bởi NP Technology.</p>
 
   <p>
-    <a href="https://www.npmjs.com/package/@namphuongso/nps-ui"><img src="https://img.shields.io/npm/v/@namphuongso/nps-ui.svg?style=flat-square" alt="NPM Version" /></a>
-    <a href="https://www.npmjs.com/package/@namphuongso/nps-ui"><img src="https://img.shields.io/npm/dm/@namphuongso/nps-ui.svg?style=flat-square" alt="Downloads" /></a>
+    <a href="https://www.npmjs.com/package/@namphuongtechnologi/nps-ui"><img src="https://img.shields.io/npm/v/@namphuongtechnologi/nps-ui.svg?style=flat-square" alt="NPM Version" /></a>
+    <a href="https://www.npmjs.com/package/@namphuongtechnologi/nps-ui"><img src="https://img.shields.io/npm/dm/@namphuongtechnologi/nps-ui.svg?style=flat-square" alt="Downloads" /></a>
     <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License" />
     <img src="https://img.shields.io/badge/TypeScript-Ready-blue.svg?style=flat-square" alt="TypeScript" />
   </p>
@@ -22,11 +22,11 @@
 Sử dụng npm, yarn hoặc pnpm:
 
 ```bash
-npm install @namphuongso/nps-ui antd
+npm install @namphuongtechnologi/nps-ui antd
 # hoặc
-yarn add @namphuongso/nps-ui antd
+yarn add @namphuongtechnologi/nps-ui antd
 # hoặc
-pnpm add @namphuongso/nps-ui antd
+pnpm add @namphuongtechnologi/nps-ui antd
 ```
 
 _(Lưu ý: `nps-ui` yêu cầu `react`, `react-dom` và `antd` làm peer dependencies)._
@@ -38,7 +38,7 @@ _(Lưu ý: `nps-ui` yêu cầu `react`, `react-dom` và `antd` làm peer depende
 ```tsx
 import React from "react";
 import { ConfigProvider } from "antd";
-import { NpsButton } from "@namphuongso/nps-ui";
+import { NpsButton } from "@namphuongtechnologi/nps-ui";
 import "antd/dist/reset.css"; // Quan trọng: Reset CSS của Ant Design
 
 export default function App() {

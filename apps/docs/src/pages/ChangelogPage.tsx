@@ -55,7 +55,7 @@ const CHANGELOG_DATA: VersionEntry[] = [
       },
       {
         type: "added",
-        text: "Published lên npm: @namphuongso/nps-ui",
+        text: "Published lên npm: @namphuongtechnologi/nps-ui",
       },
     ],
   },
@@ -204,7 +204,7 @@ export function ChangelogPage() {
                   View on GitHub ↗
                 </a>
                 <a
-                  href={`https://www.npmjs.com/package/@namphuongso/nps-ui/v/${entry.version}`}
+                  href={`https://www.npmjs.com/package/@namphuongtechnologi/nps-ui/v/${entry.version}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="docs-ant-ref-link"

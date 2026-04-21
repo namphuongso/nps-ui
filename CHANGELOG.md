@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **NpsConfigProvider** — Optional provider wrapper for compatibility with Ant Design `ConfigProvider`
 - Monorepo workspace setup (`packages/ui` + `apps/docs`)
 - Documentation site with Getting Started guide and component demos
-- Published to npm as `@namphuongso/nps-ui`
+- Published to npm as `@namphuongtechnologi/nps-ui`
 
 #### Package
 

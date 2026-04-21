@@ -195,7 +195,7 @@ Nhược điểm:
 Ví dụ:
 
 ```json
-"name": "@namphuongso/nps-ui"
+"name": "@namphuongtechnologi/nps-ui"
 ```
 
 Ưu điểm:
@@ -227,7 +227,7 @@ npm view nps-ui
 Hoặc nếu dùng scope:
 
 ```bash
-npm view @namphuongso/nps-ui
+npm view @namphuongtechnologi/nps-ui
 ```
 
 ### Trường hợp kết quả:
@@ -410,7 +410,7 @@ https://www.npmjs.com/package/nps-ui
 Hoặc:
 
 ```bash
-https://www.npmjs.com/package/@namphuongso/nps-ui
+https://www.npmjs.com/package/@namphuongtechnologi/nps-ui
 ```
 
 ### 2. Kiểm tra metadata từ terminal
@@ -428,7 +428,7 @@ npm install nps-ui antd react react-dom
 Nếu package của bạn dùng scope:
 
 ```bash
-npm install @namphuongso/nps-ui antd react react-dom
+npm install @namphuongtechnologi/nps-ui antd react react-dom
 ```
 
 ---
@@ -461,7 +461,7 @@ Nếu package có scope:
 
 ```tsx
 import { ConfigProvider } from "antd";
-import { NpsButton } from "@namphuongso/nps-ui";
+import { NpsButton } from "@namphuongtechnologi/nps-ui";
 import "antd/dist/reset.css";
 ```
 
@@ -630,7 +630,7 @@ Với repo hiện tại, tôi khuyên bạn nên làm theo thứ tự sau:
 
 1. chốt tên package cuối cùng, ví dụ:
    - `nps-ui`
-   - hoặc `@namphuongso/nps-ui`
+   - hoặc `@namphuongtechnologi/nps-ui`
 2. cập nhật `packages/ui/package.json`
 3. bổ sung `README.md` riêng cho package `ui`
 4. chạy `npm pack --dry-run`
