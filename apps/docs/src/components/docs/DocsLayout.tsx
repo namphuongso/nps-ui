@@ -6,11 +6,11 @@ import {
   type MouseEvent,
   type ReactNode,
 } from "react";
-import { Anchor, Dropdown, Layout, Menu } from "antd";
-import { DownOutlined, HistoryOutlined } from "@ant-design/icons";
+import { Anchor, Layout, Menu } from "antd";
+import { HistoryOutlined } from "@ant-design/icons";
 import { BrandLockup } from "./Brand";
 import { GUIDE_NAV, COMPONENT_NAV } from "../../config/navigation";
-import { VERSIONS, CURRENT_VERSION } from "../../config/versions";
+import { CURRENT_VERSION } from "../../config/versions";
 
 const { Sider, Content } = Layout;
 
@@ -114,33 +114,7 @@ export function DocsLayout({
     label: item.label,
   }));
 
-  // Version dropdown items
-  const versionDropdownItems = VERSIONS.map((v) => ({
-    key: v.version,
-    label: (
-      <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        {v.label}
-        {v.status === "current" && (
-          <span
-            style={{
-              fontSize: 10,
-              fontWeight: 700,
-              background: "#003a78",
-              color: "#fff",
-              borderRadius: 4,
-              padding: "1px 6px",
-              lineHeight: "16px",
-            }}
-          >
-            Latest
-          </span>
-        )}
-      </span>
-    ),
-  }));
-
   const isHomePage = currentPath === "/";
-  const isChangelog = currentPath === "/changelog";
 
   const SiderContent = () => (
     <div className="docs-sider-inner">
@@ -186,18 +160,6 @@ export function DocsLayout({
     </div>
   );
 
-  const handleVersionChange = ({ key }: { key: string }) => {
-    const version = VERSIONS.find((v) => v.version === key);
-    if (version && version.url) {
-      if (version.status === "current") {
-        onNavigate("/");
-      } else {
-        // Nếu là phiên bản cũ, chuyển hướng sang trang docs đã host riêng
-        window.location.href = version.url;
-      }
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
       {/* ═══ Topbar ═══════════════════════════════════════════ */}
@@ -238,30 +200,16 @@ export function DocsLayout({
 
           {/* Actions */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            {/* Version Dropdown */}
-            <Dropdown
-              menu={{
-                items: versionDropdownItems,
-                selectedKeys: [CURRENT_VERSION.version],
-                onClick: handleVersionChange,
-              }}
-              trigger={["click"]}
-              placement="bottomRight"
-            >
-              <button
-                id="version-dropdown"
-                className="docs-version-badge docs-version-btn"
-              >
-                {CURRENT_VERSION.label}
-                <DownOutlined style={{ fontSize: 9, marginLeft: 4 }} />
-              </button>
-            </Dropdown>
+            {/* Version Badge (static) */}
+            <span id="version-badge" className="docs-version-badge">
+              {CURRENT_VERSION.label}
+            </span>
 
             {/* NPM icon */}
             <a
               id="nav-npm"
               className="docs-nav-link-icon"
-              href="https://www.npmjs.com/package/@namphuongtechnologi/nps-ui"
+              href={import.meta.env.VITE_NPM_URL}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="NPM"
@@ -283,7 +231,7 @@ export function DocsLayout({
             <a
               id="nav-github"
               className="docs-nav-link-icon"
-              href="https://github.com/namphuongtechnologi/nps-ui"
+              href={import.meta.env.VITE_GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"

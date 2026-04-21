@@ -1,90 +1,168 @@
-# NPS UI — Tài liệu Hướng dẫn Phát triển & Vận hành
+# NPS UI — Hướng dẫn Phát triển & Vận hành
 
-Chào mừng bạn đến với dự án **NPS UI**. Đây là thư viện UI chuyên nghiệp được xây dựng trên nền tảng Ant Design và Tailwind CSS. Tài liệu này giúp bạn nắm vững quy trình làm việc trong dự án.
+Chào mừng bạn đến với dự án **NPS UI**. Đây là thư viện UI chuyên nghiệp được xây dựng trên nền tảng Ant Design và Tailwind CSS.
 
 ---
 
 ## 🏗️ 1. Cấu trúc Project (Monorepo)
 
-Dự án được quản lý theo mô hình Monorepo:
--   **`packages/ui`**: Chứa mã nguồn chính của thư viện UI (@namphuongtechnologi/nps-ui).
--   **`apps/docs`**: Website tài liệu và demo, dùng để xem và thử nghiệm component.
--   **Root**: Chứa cấu hình chung cho toàn bộ dự án (Lint, Test, Versioning).
+```
+nps-ui/
+├── packages/
+│   └── ui/               → Mã nguồn thư viện (@namphuongtechnologi/nps-ui)
+├── apps/
+│   └── docs/             → Website tài liệu & demo (Vite + React)
+├── .github/
+│   └── workflows/        → CI/CD tự động (Lint, Test, Deploy Azure)
+├── CHANGELOG.md          → Lịch sử thay đổi (tự động cập nhật)
+└── package.json          → Root workspace config + các lệnh chung
+```
 
 ---
 
 ## 🚀 2. Bắt đầu nhanh (Getting Started)
 
-1.  **Cài đặt**: Chạy `npm install` tại thư mục gốc.
-2.  **Chạy Docs local**: Chạy `npm run dev:docs` để xem giao diện tại `http://localhost:3000`.
-3.  **Build kiểm tra**: Chạy `npm run build` để đảm bảo mọi thứ đều ổn định.
+```bash
+# 1. Cài đặt toàn bộ dependencies
+npm install
+
+# 2. Chạy trang tài liệu ở local
+npm run dev:docs
+```
+
+Sau đó truy cập: **http://localhost:3000**
 
 ---
 
 ## 💻 3. Quy trình phát triển Component mới
 
-Khi bạn muốn thêm một component (ví dụ: `NpsInput`):
+Khi muốn thêm một component mới (ví dụ: `NpsInput`):
 
-1.  **Tạo Source**: Tạo thư mục và file tại `packages/ui/src/components/input/NpsInput.tsx`.
-2.  **Xây dựng UI**: Sử dụng Ant Design làm nền tảng và Tailwind CSS để tùy biến style.
-3.  **Export**: Thêm `export * from "./components/input/NpsInput"` vào file `packages/ui/src/index.ts`.
-4.  **Viết Test**: Tạo file `.test.tsx` cùng thư mục để kiểm tra logic cơ bản.
-5.  **Viết Docs**: Tạo trang demo trong `apps/docs/src/pages/components/InputPage.tsx` và đăng ký route trong `navigation.ts`.
+### Bước 1 — Tạo source
+
+```
+packages/ui/src/components/input/
+├── NpsInput.tsx         ← Logic component
+└── NpsInput.test.tsx    ← Unit test
+```
+
+### Bước 2 — Xây dựng
+
+Sử dụng **Ant Design** làm nền tảng và **Tailwind CSS** để tùy biến style.
+
+### Bước 3 — Export thư viện
+
+Thêm vào `packages/ui/src/index.ts`:
+
+```ts
+export { NpsInput } from "./components/input/NpsInput";
+export type { NpsInputProps } from "./components/input/NpsInput";
+```
+
+### Bước 4 — Viết Test
+
+```bash
+# Chạy test xem component có hoạt động đúng không
+npm run test
+```
+
+### Bước 5 — Viết Docs
+
+1. Tạo trang: `apps/docs/src/pages/components/InputPage.tsx`
+2. Đăng ký route trong `apps/docs/src/config/navigation.ts`
+3. Đăng ký page trong `apps/docs/src/App.tsx`
+
+> [!TIP]
+> Dùng **`ComponentDoc`** template để viết docs nhanh hơn ~70%. Xem `apps/docs/src/components/docs/ComponentDoc.tsx` để biết cách dùng.
 
 ---
 
-## 🦋 4. Quản lý Phiên bản (The Changeset Workflow)
+## 🦋 4. Quy trình Quản lý Phiên bản & Release
 
-Chúng ta **KHÔNG** tự ý sửa `version` trong `package.json`. Quy trình chuẩn là:
+Mỗi tính năng hoặc bản sửa lỗi hoàn thành cần được ghi nhận qua **Changesets**. Tuyệt đối **không** tự sửa `version` trong `package.json`.
 
-1.  **Ghi nhận thay đổi**: Sau khi code xong, chạy `npx changeset`.
-    - Chọn package (`@namphuongtechnologi/nps-ui`).
-    - Chọn loại thay đổi: `patch` (fix bug), `minor` (thêm tính năng), `major` (breaking change).
-    - Viết nội dung thay đổi bằng tiếng Việt hoặc tiếng Anh.
-2.  **Review**: File changeset sẽ được push lên Git để mọi người cùng biết bạn đã thay đổi gì.
-3.  **Phát hành**: Khi đến ngày release, admin sẽ chạy `npm run version` để tool tự động cập nhật version và tạo `CHANGELOG.md`.
+### Quy tắc tăng version
+
+| Loại | Ý nghĩa | Ví dụ |
+| :--- | :--- | :--- |
+| `patch` | Sửa lỗi nhỏ, không ảnh hưởng API | `0.1.0` → `0.1.1` |
+| `minor` | Thêm tính năng mới, không phá vỡ API cũ | `0.1.0` → `0.2.0` |
+| `major` | Thay đổi phá vỡ cấu trúc cũ (breaking change) | `0.1.0` → `1.0.0` |
+
+### Quy trình từng bước
+
+**Bước 1 — Ghi nhận thay đổi (sau khi code xong)**
+
+```bash
+npx changeset
+```
+- Chọn package: `@namphuongtechnologi/nps-ui`
+- Chọn loại: `patch`, `minor`, hoặc `major`
+- Viết mô tả ngắn gọn về thay đổi
+
+**Bước 2 — Commit lên Git**
+
+```bash
+git add .
+git commit -m "feat: thêm component NpsInput"
+git push origin main
+```
+
+**Bước 3 — Release (khi sẵn sàng phát hành)**
+
+```bash
+# Cập nhật số version và ghi Changelog tự động
+npm run version
+
+# Build + Publish lên NPM
+npm run release
+```
+
+**Bước 4 — Cập nhật version badge trên website Docs**
+
+Sau khi release thành công, cập nhật file `apps/docs/src/config/versions.ts`:
+
+```ts
+export const CURRENT_VERSION: VersionConfig = {
+  version: "0.2.0",   // ← Đổi thành version mới
+  label: "v0.2.0",    // ← Đổi thành version mới
+  date: "2026-05-01", // ← Đổi thành ngày release
+};
+```
+
+Commit và push lên `main` để Azure tự động deploy website docs mới.
 
 ---
 
-## 🔄 5. Chiến lược nâng cấp lên Version 2 (V2)
+## 🧪 5. Tiêu chuẩn chất lượng (Quality Standards)
 
-Khi có những thay đổi lớn làm hỏng code cũ (Breaking Changes), chúng ta áp dụng chiến lược sau:
+Trước mỗi lần commit, hãy chắc chắn chạy:
 
-### Quản lý Code & Git:
-- **Maintenance**: Tạo nhánh `v1-maintenance` từ bản v1 hiện tại để fix bug cho người dùng cũ.
-- **Development**: Tiếp tục phát triển V2 trên nhánh `main`. Khi release, chọn loại thay đổi là `major` trong Changeset.
-
-### Quản lý Tài liệu (Documentation):
-- Website chính (`namphuong.tech`) luôn hiển thị bản docs mới nhất (V2).
-- Bản docs của V1 sẽ được build và lưu trữ tại subfolder (ví dụ: `namphuong.tech/v1/`).
-- Trong giao diện Docs, sử dụng menu chọn phiên bản ở Topbar để chuyển đổi giữa các URL này.
-
----
-
-## 🧪 6. Tiêu chuẩn chất lượng (Quality Standards)
-
-Trước khi commit code, hãy đảm bảo:
-- **Formatting**: Chạy `npm run format` để format code đẹp theo chuẩn.
-- **Linting**: Chạy `npm run lint` để đảm bảo không có lỗi logic hay code thừa.
-- **Testing**: Chạy `npm run test` để đảm bảo các component cũ không bị hỏng.
+```bash
+npm run format   # Định dạng code
+npm run lint     # Kiểm tra lỗi logic
+npm run test     # Chạy unit tests
+```
 
 > [!IMPORTANT]
-> **CI/CD**: Mỗi khi bạn tạo Pull Request, GitHub Actions sẽ tự động chạy các lệnh trên. Nếu có bước nào thất bại (đỏ), code của bạn sẽ không được merge.
+> **CI/CD tự động**: Mỗi khi tạo Pull Request vào `main`, GitHub Actions sẽ chạy Lint, Build và Test. Nếu bước nào thất bại (đỏ), code **sẽ bị từ chối merge**.
 
 ---
 
-## 📦 7. Lệnh hữu ích
+## 📦 6. Bảng lệnh hữu ích
 
 | Lệnh | Ý nghĩa |
 | :--- | :--- |
 | `npm run dev:docs` | Chạy dev server cho trang tài liệu |
-| `npm run build` | Build toàn bộ monorepo (UI + Docs) |
-| `npm run lint` | Kiểm tra lỗi code style & logic |
+| `npm run build` | Build toàn bộ (UI + Docs) để kiểm tra |
+| `npm run lint` | Kiểm tra lỗi code |
+| `npm run format` | Tự động định dạng code |
 | `npm run test` | Chạy toàn bộ unit tests |
-| `npx changeset` | Tạo mẩu tin ghi nhận thay đổi version |
-| `npm run version` | Cập nhật version package & viết Changelog |
-| `npm run release` | Publish bản build mới lên NPM |
+| `npx changeset` | Ghi nhận thay đổi để chuẩn bị release |
+| `npm run version` | Cập nhật version + viết CHANGELOG tự động |
+| `npm run release` | Build & Publish lên NPM |
+| `npm run clean` | Xóa toàn bộ `dist` và `node_modules` để làm sạch |
 
 ---
 
-*Tài liệu này được cập nhật lần cuối vào ngày 14/04/2026 bởi Đội ngũ NPS UI.*
+_Cập nhật lần cuối: 21/04/2026 — Đội ngũ NPS UI_

@@ -1,16 +1,6 @@
+const baseConfig = require("../../tailwind.config.base.cjs");
+
 module.exports = {
+  ...baseConfig,
   content: ["./src/**/*.{ts,tsx}"],
-  theme: {
-    extend: {
-      colors: {
-        brand: {
-          50: "#eef5ff",
-          100: "#dbeafe",
-          500: "#05397b",
-          600: "#042f65",
-        },
-      },
-    },
-  },
-  plugins: [],
 };

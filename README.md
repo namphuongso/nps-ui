@@ -1,42 +1,58 @@
-# NPS UI
+# NPS UI 💎
 
-Monorepo mẫu cho thư viện UI dùng `Ant Design + Tailwind CSS` và website docs đi kèm.
+[![Build Status](https://github.com/namphuongtechnologi/nps-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/namphuongtechnologi/nps-ui/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://img.shields.io/npm/v/@namphuongtechnologi/nps-ui.svg)](https://www.npmjs.com/package/@namphuongtechnologi/nps-ui)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-## Cấu trúc
+Thư viện Component chuyên nghiệp dựa trên Ant Design và Tailwind CSS, dành riêng cho hệ sinh thái Nam Phương.
+
+---
+
+## 🏗️ Cấu trúc dự án (Monorepo)
+
+- **`packages/ui`**: Chứa mã nguồn của bộ thư viện `@namphuongtechnologi/nps-ui`.
+- **`apps/docs`**: Website tài liệu, hướng dẫn và demo tương tác (Vite + React).
+
+---
+
+## 🚀 Bắt đầu nhanh
+
+### Chạy trang tài liệu (Local)
 
 ```bash
-apps/docs      # website docs/demo
-packages/ui    # thư viện component để publish npm
-```
-
-## Chạy local
-
-> Đứng tại thư mục gốc repo: `/Users/lyquocvan/Documents/NamPhuongSo/nps-ui`
-
-```bash
+# Cài đặt dependencies
 npm install
+
+# Chạy dev server cho Docs
 npm run dev:docs
 ```
+Sau đó truy cập: [http://localhost:3000](http://localhost:3000)
 
-Sau đó mở:
+---
 
-```bash
-http://localhost:5173
-```
+## 📖 Tài nguyên & Hướng dẫn
 
-## Tài liệu hướng dẫn
+- 💻 **[Hướng dẫn Phát triển (Development Guide)](DEVELOPMENT_GUIDE.md)**: Cách thêm component, viết test, quy trình release và quản lý phiên bản.
+- 📦 **[Hướng dẫn Xuất bản NPM (NPM Publish Guide)](PUBLISH_NPM_GUIDE.md)**: Chi tiết cách đưa thư viện lên registry của NPM.
+- 🤝 **[Hướng dẫn Đóng góp (Contributing Guide)](CONTRIBUTING.md)**: Cách gửi PR và tiêu chuẩn code style.
 
-- `DEVELOPMENT_GUIDE.md`: hướng dẫn chạy source, phát triển component và xem sản phẩm local
-- `PUBLISH_NPM_GUIDE.md`: hướng dẫn publish package lên npm
+---
 
-## Build
+## 🛠️ Công nghệ sử dụng
 
-```bash
-npm run build
-```
+- **React 18** + **TypeScript**
+- **Ant Design** (UI Foundation)
+- **Tailwind CSS** (Styling Utilities)
+- **Changesets** (Automated Versioning)
+- **Vite** (Build Tooling)
+- **Vitest** (Unit Testing)
 
-## Component mẫu hiện có
+---
 
-- `NpsButton`
+## 📄 Bản quyền (License)
 
-> Thư viện hiện được thiết kế để bám theo `Ant Design` của dự án host, không bắt buộc dùng provider riêng từ package.
+Dự án này được phát hành dưới giấy phép [MIT](LICENSE).
+
+---
+_Phát triển và vận hành bởi Đội ngũ Công nghệ Nam Phương_
