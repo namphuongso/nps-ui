@@ -8,6 +8,7 @@ import { ButtonPage, buttonAnchorItems } from "./pages/components/ButtonPage";
 import { HomePage, homeAnchorItems } from "./pages/HomePage";
 import { ChangelogPage, changelogAnchorItems } from "./pages/ChangelogPage";
 
+const BASE_PATH = "/nps-ui";
 const DEFAULT_PATH = "/guide/getting-started";
 
 interface PageConfig {
@@ -43,7 +44,12 @@ function getCurrentPath() {
   if (typeof window === "undefined") {
     return DEFAULT_PATH;
   }
-  return window.location.pathname;
+  // Strip base path for internal routing mapping
+  let path = window.location.pathname;
+  if (path.startsWith(BASE_PATH)) {
+    path = path.slice(BASE_PATH.length);
+  }
+  return path || "/";
 }
 
 function resolvePageConfig(path: string): PageConfig {
@@ -76,8 +82,9 @@ export default function App() {
   const handleNavigate = (path: string) => {
     if (typeof window === "undefined") return;
 
-    if (window.location.pathname !== path) {
-      window.history.pushState({}, "", path);
+    const fullPath = BASE_PATH + path;
+    if (window.location.pathname !== fullPath) {
+      window.history.pushState({}, "", fullPath);
       setCurrentPath(path);
     }
 

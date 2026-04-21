@@ -8,6 +8,13 @@ Thư viện Component chuyên nghiệp dựa trên **Ant Design** và **Tailwind
 
 ---
 
+## 🔗 Liên kết nhanh
+- 📖 **[Trang tài liệu chính thức](https://namphuongso.github.io/nps-ui)**
+- 📦 **[NPM Package](https://www.npmjs.com/package/@namphuongtechnologi/nps-ui)**
+- 🛠️ **[GitHub Repository](https://github.com/namphuongso/nps-ui)**
+
+---
+
 ## 📖 Mục lục
 
 1. [Hướng dẫn cho Người dùng (User Guide)](#-hướng-dẫn-cho-người-dùng)
