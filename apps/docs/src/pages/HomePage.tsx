@@ -5,10 +5,10 @@ import type { DocsAnchorItem } from "../components/docs/DocsLayout";
 
 const { Title, Paragraph, Text } = Typography;
 
-const installSnippet = `npm install @namphuongtechnologi/nps-ui antd`;
+const installSnippet = `npm install @namphuongso/nps-ui antd`;
 
 const usageSnippet = `import { ConfigProvider } from "antd";
-import { NpsButton } from "@namphuongtechnologi/nps-ui";
+import { NpsButton } from "@namphuongso/nps-ui";
 import "antd/dist/reset.css";
 
 export default function App() {

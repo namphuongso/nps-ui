@@ -9,7 +9,7 @@ Chào mừng bạn đến với dự án **NPS UI**. Đây là thư viện UI ch
 ```
 nps-ui/
 ├── packages/
-│   └── ui/               → Mã nguồn thư viện (@namphuongtechnologi/nps-ui)
+│   └── ui/               → Mã nguồn thư viện (@namphuongso/nps-ui)
 ├── apps/
 │   └── docs/             → Website tài liệu & demo (Vite + React)
 ├── .github/
@@ -96,7 +96,7 @@ Mỗi tính năng hoặc bản sửa lỗi hoàn thành cần được ghi nhậ
 ```bash
 npx changeset
 ```
-- Chọn package: `@namphuongtechnologi/nps-ui`
+- Chọn package: `@namphuongso/nps-ui`
 - Chọn loại: `patch`, `minor`, hoặc `major`
 - Viết mô tả ngắn gọn về thay đổi
 

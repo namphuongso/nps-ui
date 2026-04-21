@@ -104,7 +104,7 @@ export function InputPage() {
       title="Input"
       version="0.2.0"
       description={<>Mô tả component.</>}
-      importSnippet={`import { NpsInput } from "@namphuongtechnologi/nps-ui";`}
+      importSnippet={`import { NpsInput } from "@namphuongso/nps-ui";`}
       whenToUse={["Khi cần nhập liệu văn bản."]}
       examples={examples}
       antdDocLink="https://ant.design/components/input#api"
