@@ -1,58 +1,96 @@
 # NPS UI 💎
 
 [![Build Status](https://github.com/namphuongso/nps-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/namphuongso/nps-ui/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![npm version](https://img.shields.io/npm/v/@namphuongtechnologi/nps-ui.svg)](https://www.npmjs.com/package/@namphuongtechnologi/nps-ui)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-Thư viện Component chuyên nghiệp dựa trên Ant Design và Tailwind CSS, dành riêng cho hệ sinh thái Nam Phương.
-
----
-
-## 🏗️ Cấu trúc dự án (Monorepo)
-
-- **`packages/ui`**: Chứa mã nguồn của bộ thư viện `@namphuongtechnologi/nps-ui`.
-- **`apps/docs`**: Website tài liệu, hướng dẫn và demo tương tác (Vite + React).
+Thư viện Component chuyên nghiệp dựa trên **Ant Design** và **Tailwind CSS**, thiết kế dành riêng cho hệ sinh thái Nam Phương.
 
 ---
 
-## 🚀 Bắt đầu nhanh
+## 📖 Mục lục
+1. [Hướng dẫn cho Người dùng (User Guide)](#-hướng-dẫn-cho-người-dùng)
+2. [Hướng dẫn Phát triển (Developer Guide)](#-hướng-dẫn-phát-triển)
+3. [Quy trình Release tự động (Automation)](#-quy-trình-release-tự-động)
+4. [Cấu trúc dự án](#-cấu trúc-dự-án)
 
-### Chạy trang tài liệu (Local)
+---
 
+## 🚀 Hướng dẫn cho Người dùng
+
+### Cài đặt
 ```bash
-# Cài đặt dependencies
-npm install
-
-# Chạy dev server cho Docs
-npm run dev:docs
+npm install @namphuongtechnologi/nps-ui antd
 ```
-Sau đó truy cập: [http://localhost:3000](http://localhost:3000)
+
+### Sử dụng cơ bản
+```tsx
+import { NpsButton } from "@namphuongtechnologi/nps-ui";
+
+export default function App() {
+  return <NpsButton type="primary">NPS UI Button</NpsButton>;
+}
+```
 
 ---
 
-## 📖 Tài nguyên & Hướng dẫn
+## 💻 Hướng dẫn Phát triển
 
-- 💻 **[Hướng dẫn Phát triển (Development Guide)](DEVELOPMENT_GUIDE.md)**: Cách thêm component, viết test, quy trình release và quản lý phiên bản.
-- 📦 **[Hướng dẫn Xuất bản NPM (NPM Publish Guide)](PUBLISH_NPM_GUIDE.md)**: Chi tiết cách đưa thư viện lên registry của NPM.
-- 🤝 **[Hướng dẫn Đóng góp (Contributing Guide)](CONTRIBUTING.md)**: Cách gửi PR và tiêu chuẩn code style.
+### 1. Chuẩn bị môi trường
+- **Yêu cầu**: Node.js v20+, npm v9+.
+- **Setup**:
+  ```bash
+  git clone <repo-url>
+  npm install
+  npm run dev:docs # Chạy trang tài liệu tại http://localhost:3000
+  ```
+
+### 2. Thêm Component mới
+1. **Source**: Tạo tại `packages/ui/src/components/<name>/`.
+2. **Export**: Đăng ký tại `packages/ui/src/index.ts`.
+3. **Docs**: Tạo trang tại `apps/docs/src/pages/components/<Name>Page.tsx` (sử dụng template `ComponentDoc`).
+4. **Test**: Mọi component phải có file `.test.tsx` đi kèm.
+
+### 3. Tiêu chuẩn Code Style
+- Dùng **Functional Components** + Hooks.
+- Mọi logic tùy chỉnh style phải dùng **Tailwind CSS**.
+- Trước khi commit, bắt buộc chạy:
+  ```bash
+  npm run format && npm run lint && npm run test
+  ```
 
 ---
 
-## 🛠️ Công nghệ sử dụng
+## 🤖 Quy trình Release tự động
 
-- **React 18** + **TypeScript**
-- **Ant Design** (UI Foundation)
-- **Tailwind CSS** (Styling Utilities)
-- **Changesets** (Automated Versioning)
-- **Vite** (Build Tooling)
-- **Vitest** (Unit Testing)
+Dự án sử dụng **Changesets** kết hợp với **GitHub Actions** để tự động hóa việc đưa code lên NPM.
+
+### Bước 1: Ghi nhận thay đổi (Dành cho Dev)
+Khi bạn hoàn thành 1 tính năng/fix lỗi, hãy chạy:
+```bash
+npx changeset
+```
+- Chọn loại version (`patch`/`minor`/`major`).
+- Viết mô tả ngắn. Sau đó push code lên GitHub.
+
+### Bước 2: Tự động hóa Pipeline
+1. Khi push vào nhánh `main`, GitHub Action sẽ tự động tạo một PR **"Version Packages"**.
+2. Khi PR này được **Merge**, GitHub sẽ tự động:
+   - Build thư viện.
+   - Publish lên NPM với version mới.
+   - Tạo GitHub Release & Changelog.
+
+### 🔐 Cấu hình quan trọng (Chỉ làm 1 lần)
+Để quy trình tự động hoạt động, chủ sở hữu repo cần:
+1. Tạo **NPM Automation Token** tại [npmjs.com](https://www.npmjs.com/settings/quocvan289/tokens).
+2. Thêm vào GitHub Secrets của repo (`Settings > Secrets > Actions`) với tên: **`NPM_TOKEN`**.
 
 ---
 
-## 📄 Bản quyền (License)
-
-Dự án này được phát hành dưới giấy phép [MIT](LICENSE).
+## 🏗️ Cấu trúc dự án
+- **`packages/ui`**: Mã nguồn thư viện chính.
+- **`apps/docs`**: Website tài liệu & demo.
+- **`.github/workflows`**: Chứa pipeline CI/CD (Lint, Test, Deploy, Release).
 
 ---
 _Phát triển và vận hành bởi Đội ngũ Công nghệ Nam Phương_
