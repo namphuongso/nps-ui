@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "antd": "^5.0.0",
-    "nps-ui": "0.1.0",
+    "@namphuongtechnologi/nps-ui": "0.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
