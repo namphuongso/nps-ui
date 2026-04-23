@@ -9,6 +9,7 @@ Thư viện Component chuyên nghiệp dựa trên **Ant Design** và **Tailwind
 ---
 
 ## 🔗 Liên kết nhanh
+
 - 📖 **[Trang tài liệu chính thức](https://namphuongso.github.io/nps-ui)**
 - 📦 **[NPM Package](https://www.npmjs.com/package/@namphuongtechnologi/nps-ui)**
 - 🛠️ **[GitHub Repository](https://github.com/namphuongso/nps-ui)**
@@ -53,14 +54,14 @@ export default function App() {
   ```bash
   git clone <repo-url>
   npm install
-  npm run dev:docs # Chạy trang tài liệu tại http://localhost:3000
+  npm run dev:docs # Khởi chạy website tài liệu tại http://localhost:3000
   ```
 
 ### 2. Thêm Component mới
 
 1. **Source**: Tạo tại `packages/ui/src/components/<name>/`.
 2. **Export**: Đăng ký tại `packages/ui/src/index.ts`.
-3. **Docs**: Tạo trang tại `apps/docs/src/pages/components/<Name>Page.tsx` (sử dụng template `ComponentDoc`).
+3. **Docs**: Tạo thư mục tại `apps/docs/src/pages/components/<name>/`. Bao gồm `index.tsx` (logic) và `locales.ts` (đa ngôn ngữ).
 4. **Test**: Mọi component phải có file `.test.tsx` đi kèm.
 
 ### 3. Tiêu chuẩn Code Style

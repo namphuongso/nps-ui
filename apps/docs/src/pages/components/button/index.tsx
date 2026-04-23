@@ -1,5 +1,5 @@
 import { Space } from "antd";
-import { NpsButton } from "nps-ui";
+import { NpsButton } from "@namphuongtechnologi/nps-ui";
 import { ComponentDoc } from "../../../components/docs/ComponentDoc";
 import type { ExampleConfig, ApiProp } from "../../../components/docs/types";
 import { useTranslation } from "react-i18next";

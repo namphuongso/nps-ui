@@ -1,4 +1,4 @@
-import { NpsButton } from "nps-ui";
+import { NpsButton } from "@namphuongtechnologi/nps-ui";
 import { Typography, Space } from "antd";
 import { CodeBlock } from "../../components/docs/CodeBlock";
 import { SEO } from "../../components/docs/SEO";
@@ -79,13 +79,10 @@ export function HomePage() {
         </div>
 
         <Title className="docs-home-hero-title">
-          {t("hero.title")}{" "}
-          <span className="docs-home-hero-brand">NPS UI</span>
+          {t("hero.title")} <span className="docs-home-hero-brand">NPS UI</span>
         </Title>
 
-        <Paragraph className="docs-hero-sub">
-          {t("hero.subtitle")}
-        </Paragraph>
+        <Paragraph className="docs-hero-sub">{t("hero.subtitle")}</Paragraph>
 
         <div className="docs-hero-actions">
           <NpsButton
@@ -109,7 +106,10 @@ export function HomePage() {
             href="/components/button"
             style={{ height: 44, paddingInline: 24 }}
           >
-            {t("exploreComponents", { defaultValue: "Explore Components", ns: "common" })}
+            {t("exploreComponents", {
+              defaultValue: "Explore Components",
+              ns: "common",
+            })}
           </NpsButton>
         </div>
 
@@ -131,7 +131,12 @@ export function HomePage() {
 
       {/* ── Live Preview ─────────────────────────────── */}
       <section className="docs-home-preview-section">
-        <div className="docs-home-preview-label">{t("usage.preview", { ns: "gettingStarted", defaultValue: "Live Preview" })}</div>
+        <div className="docs-home-preview-label">
+          {t("usage.preview", {
+            ns: "gettingStarted",
+            defaultValue: "Live Preview",
+          })}
+        </div>
         <div
           className="docs-preview-surface"
           style={{ justifyContent: "center", minHeight: 80 }}
@@ -220,7 +225,10 @@ export function HomePage() {
               paddingInline: 24,
             }}
           >
-            {t("readGuide", { ns: "common", defaultValue: "Read the full guide →" })}
+            {t("readGuide", {
+              ns: "common",
+              defaultValue: "Read the full guide →",
+            })}
           </NpsButton>
         </div>
       </section>

@@ -1,15 +1,15 @@
 import { Col, Row, Space, Typography } from "antd";
-import { NpsButton } from "nps-ui";
+import { NpsButton } from "@namphuongtechnologi/nps-ui";
 import { CodeBlock } from "../../components/docs/CodeBlock";
 import { SEO } from "../../components/docs/SEO";
 import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph, Text } = Typography;
 
-const installSnippet = `npm install nps-ui antd`;
+const installSnippet = `npm install @namphuongtechnologi/nps-ui antd`;
 
 const usageSnippet = `import { ConfigProvider } from "antd";
-import { NpsButton } from "nps-ui";
+import { NpsButton } from "@namphuongtechnologi/nps-ui";
 import "antd/dist/reset.css";
 
 export default function Example() {
@@ -64,14 +64,12 @@ export function GettingStartedPage() {
         </div>
 
         <Title className="docs-hero-title">
-          {t("hero.title").split('\n')[0]}
+          {t("hero.title").split("\n")[0]}
           <br />
-          {t("hero.title").split('\n')[1] || "with NPS UI"}
+          {t("hero.title").split("\n")[1] || "with NPS UI"}
         </Title>
 
-        <Paragraph className="docs-hero-sub">
-          {t("hero.subtitle")}
-        </Paragraph>
+        <Paragraph className="docs-hero-sub">{t("hero.subtitle")}</Paragraph>
 
         <div className="docs-hero-actions">
           <NpsButton
@@ -86,7 +84,10 @@ export function GettingStartedPage() {
               paddingInline: 24,
             }}
           >
-            {t("exploreComponents", { ns: "common", defaultValue: "Explore Components →" })}
+            {t("exploreComponents", {
+              ns: "common",
+              defaultValue: "Explore Components →",
+            })}
           </NpsButton>
           <NpsButton
             id="hero-btn-install"
@@ -94,7 +95,8 @@ export function GettingStartedPage() {
             href="#installation"
             style={{ height: 44, paddingInline: 24 }}
           >
-            {t("installation.title")} {t("guide", { ns: "common", defaultValue: "Guide" })}
+            {t("installation.title")}{" "}
+            {t("guide", { ns: "common", defaultValue: "Guide" })}
           </NpsButton>
         </div>
 
@@ -126,9 +128,7 @@ export function GettingStartedPage() {
         <Title level={2} className="docs-section-title">
           {t("usage.title")}
         </Title>
-        <Paragraph className="docs-section-sub">
-          {t("usage.desc")}
-        </Paragraph>
+        <Paragraph className="docs-section-sub">{t("usage.desc")}</Paragraph>
 
         <Row gutter={[16, 16]}>
           <Col xs={24} xl={14}>
@@ -167,7 +167,9 @@ export function GettingStartedPage() {
                 className="space-y-2 pl-5 text-sm text-slate-500"
                 style={{ lineHeight: 1.7 }}
               >
-                {(t("usage.themeSyncItems", { returnObjects: true }) as string[]).map((item, idx) => (
+                {(
+                  t("usage.themeSyncItems", { returnObjects: true }) as string[]
+                ).map((item, idx) => (
                   <li key={idx}>{item}</li>
                 ))}
               </ul>
