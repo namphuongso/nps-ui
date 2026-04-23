@@ -1,19 +1,6 @@
-import type { ReactNode } from "react";
 import { Tag, Tooltip } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
-
-export interface ApiProp {
-  property: string;
-  description: ReactNode;
-  type: string;
-  default?: string;
-  version?: string;
-  required?: boolean;
-}
-
-interface ApiTableProps {
-  data: ApiProp[];
-}
+import type { ApiTableProps } from "./types";
 
 export function ApiTable({ data }: ApiTableProps) {
   return (

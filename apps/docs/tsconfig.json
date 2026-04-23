@@ -1,6 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "nps-ui": ["../../packages/ui/src/index.ts"],
+      "nps-ui/*": ["../../packages/ui/src/*"],
+      "@namphuongtechnologi/nps-ui": ["../../packages/ui/src/index.ts"]
+    },
     "types": ["vite/client"]
   },
   "include": ["src", "vite.config.ts"]

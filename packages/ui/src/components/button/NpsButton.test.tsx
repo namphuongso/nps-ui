@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { NpsButton } from "./NpsButton";
+import { NpsButton } from "./index";
 
 describe("NpsButton", () => {
   it("renders correctly with text", () => {

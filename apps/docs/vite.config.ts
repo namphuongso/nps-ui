@@ -12,6 +12,10 @@ export default defineConfig({
       ).pathname,
       "nps-ui": new URL("../../packages/ui/src/index.ts", import.meta.url)
         .pathname,
+      "@namphuongtechnologi/nps-ui": new URL(
+        "../../packages/ui/src/index.ts",
+        import.meta.url,
+      ).pathname,
     },
   },
   server: {

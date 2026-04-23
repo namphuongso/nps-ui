@@ -1,21 +1,18 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { DocsLayout, type DocsAnchorItem } from "./components/docs/DocsLayout";
+import { DocsLayout } from "./components/docs/DocsLayout";
+import type { DocsAnchorItem } from "./components/docs/types";
 import {
   GettingStartedPage,
   gettingStartedAnchorItems,
-} from "./pages/GettingStartedPage";
-import { ButtonPage, buttonAnchorItems } from "./pages/components/ButtonPage";
-import { HomePage, homeAnchorItems } from "./pages/HomePage";
-import { ChangelogPage, changelogAnchorItems } from "./pages/ChangelogPage";
+} from "./pages/getting-started";
+import { ButtonPage, buttonAnchorItems } from "./pages/components/button";
+import { HomePage, homeAnchorItems } from "./pages/home";
+import { ChangelogPage, changelogAnchorItems } from "./pages/changelog";
+import type { PageConfig } from "./types/router";
 
 const BASE_PATH = "/nps-ui";
 const DEFAULT_PATH = "/guide/getting-started";
 
-interface PageConfig {
-  path: string;
-  anchorItems: DocsAnchorItem[];
-  content: ReactNode;
-}
 
 const pageMap: Record<string, PageConfig> = {
   "/": {

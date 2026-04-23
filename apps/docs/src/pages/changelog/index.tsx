@@ -5,33 +5,24 @@ import {
   BugOutlined,
   ThunderboltOutlined,
 } from "@ant-design/icons";
-import type { DocsAnchorItem } from "../components/docs/DocsLayout";
+import type { DocsAnchorItem } from "../../components/docs/types";
+import { EXTERNAL_LINKS } from "../../config/links";
+import { SEO } from "../../components/docs/SEO";
+import { useTranslation } from "react-i18next";
+import type { VersionEntry } from "./types";
 
 const { Title, Paragraph, Text } = Typography;
 
 export const changelogAnchorItems: DocsAnchorItem[] = [
-  { key: "v0-1-0", href: "#v0-1-0", title: "v0.1.0" },
+  { key: "v0-0-1", href: "#v0-0-1", title: "v0.0.1" },
 ];
-
-interface ChangeEntry {
-  type: "added" | "fixed" | "improved" | "breaking";
-  text: string;
-}
-
-interface VersionEntry {
-  version: string;
-  date: string;
-  status: "current" | "old";
-  summary: string;
-  changes: ChangeEntry[];
-}
 
 const CHANGELOG_DATA: VersionEntry[] = [
   {
-    version: "0.1.0",
-    date: "2026-04-14",
+    version: "0.0.1",
+    date: "2026-04-23",
     status: "current",
-    summary: "Initial Release — NpsButton và foundation của thư viện",
+    summary: "Initial Release — NpsButton and core infrastructure",
     changes: [
       {
         type: "added",
@@ -47,15 +38,15 @@ const CHANGELOG_DATA: VersionEntry[] = [
       },
       {
         type: "added",
-        text: "Documentation site với Getting Started guide và component demos",
+        text: "Documentation site with Getting Started guide and component demos",
       },
       {
         type: "added",
-        text: "Dual CJS/ESM build output via Vite với TypeScript declarations",
+        text: "Dual CJS/ESM build output via Vite with TypeScript declarations",
       },
       {
         type: "added",
-        text: "Published lên npm: @namphuongtechnologi/nps-ui",
+        text: "Published to npm: @namphuongtechnologi/nps-ui",
       },
     ],
   },
@@ -89,8 +80,10 @@ const changeTypeConfig = {
 } as const;
 
 export function ChangelogPage() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-16">
+      <SEO title={t("changelog")} description={t("home:hero.subtitle")} />
       {/* ── Header ─────────────────────────────────── */}
       <section
         id="changelog-header"
@@ -99,13 +92,14 @@ export function ChangelogPage() {
       >
         <div className="docs-hero-badge">
           <span className="docs-hero-badge-dot" />
-          Release History
+          {t("changelog")}
         </div>
         <Title className="docs-section-title" style={{ fontSize: 36 }}>
-          Changelog
+          {t("changelog")}
         </Title>
         <Paragraph className="docs-section-sub">
-          Toàn bộ thay đổi của NPS UI theo từng phiên bản. Format theo{" "}
+          All notable changes to NPS UI will be documented in this file. Format
+          based on{" "}
           <a
             href="https://keepachangelog.com"
             target="_blank"
@@ -196,15 +190,15 @@ export function ChangelogPage() {
               {/* Links */}
               <div className="docs-changelog-entry-links">
                 <a
-                  href={`https://github.com/namphuongso/nps-ui/releases/tag/v${entry.version}`}
+                  href={EXTERNAL_LINKS.GITHUB}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="docs-ant-ref-link"
                 >
-                  View on GitHub ↗
+                  {t("more")} GitHub ↗
                 </a>
                 <a
-                  href={`https://www.npmjs.com/package/@namphuongtechnologi/nps-ui/v/${entry.version}`}
+                  href={EXTERNAL_LINKS.NPM}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="docs-ant-ref-link"

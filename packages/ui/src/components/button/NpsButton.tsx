@@ -1,9 +1,6 @@
-import { Button, type ButtonProps } from "antd";
+import { Button } from "antd";
 import { twMerge } from "tailwind-merge";
-
-export interface NpsButtonProps extends ButtonProps {
-  rounded?: "full";
-}
+import type { NpsButtonProps } from "./types";
 
 export function NpsButton({ className, rounded, ...props }: NpsButtonProps) {
   return (

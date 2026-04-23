@@ -11,23 +11,15 @@ import { HistoryOutlined } from "@ant-design/icons";
 import { BrandLockup } from "./Brand";
 import { GUIDE_NAV, COMPONENT_NAV } from "../../config/navigation";
 import { CURRENT_VERSION } from "../../config/versions";
+import { EXTERNAL_LINKS } from "../../config/links";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import type { DocsAnchorItem, DocsLayoutProps } from "./types";
 
 const { Sider, Content } = Layout;
 
 const TOPBAR_H = 64;
 
-export interface DocsAnchorItem {
-  key: string;
-  href: string;
-  title: string;
-}
-
-interface DocsLayoutProps {
-  currentPath: string;
-  onNavigate: (path: string) => void;
-  anchorItems: DocsAnchorItem[];
-  children: ReactNode;
-}
 
 /** Custom scroll-spy */
 function useActiveAnchor(items: DocsAnchorItem[]) {
@@ -103,23 +95,29 @@ export function DocsLayout({
     }
   };
 
+  const { t, i18n } = useTranslation("common");
+
   // Convert nav config to Ant Menu items
   const guideMenuItems = GUIDE_NAV.map((item) => ({
     key: item.path ?? item.key,
-    label: item.label,
+    label: t(item.key.split('/').pop() === 'getting-started' ? 'gettingStarted' : 'guide'),
   }));
 
   const componentMenuItems = COMPONENT_NAV.map((item) => ({
     key: item.path ?? item.key,
-    label: item.label,
+    label: item.label, // These are product names, usually keep as is or translate if needed
   }));
+/* 
+  Actually Button is fine as "Button", but if we had "Bảng" vs "Table" we'd use:
+  label: t(`components.${item.key.split('/').pop()}`)
+*/
 
   const isHomePage = currentPath === "/";
 
   const SiderContent = () => (
     <div className="docs-sider-inner">
       {/* Guide */}
-      <div className="docs-sider-heading">Guide</div>
+      <div className="docs-sider-heading">{t("guide")}</div>
       <Menu
         mode="inline"
         selectedKeys={[currentPath]}
@@ -129,7 +127,7 @@ export function DocsLayout({
       />
 
       {/* Components */}
-      <div className="docs-sider-heading">Components</div>
+      <div className="docs-sider-heading">{t("components")}</div>
       <Menu
         mode="inline"
         selectedKeys={[currentPath]}
@@ -139,7 +137,7 @@ export function DocsLayout({
       />
 
       {/* More */}
-      <div className="docs-sider-heading">More</div>
+      <div className="docs-sider-heading">{t("more")}</div>
       <Menu
         mode="inline"
         selectedKeys={[currentPath]}
@@ -149,7 +147,7 @@ export function DocsLayout({
             label: (
               <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <HistoryOutlined style={{ fontSize: 13 }} />
-                Changelog
+                {t("changelog")}
               </span>
             ),
           },
@@ -200,6 +198,11 @@ export function DocsLayout({
 
           {/* Actions */}
           <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Language Switcher */}
+            <LanguageSwitcher />
+
+            <div className="w-[1px] h-4 bg-slate-200 mx-1" />
+
             {/* Version Badge (static) */}
             <span id="version-badge" className="docs-version-badge">
               {CURRENT_VERSION.label}
@@ -209,7 +212,7 @@ export function DocsLayout({
             <a
               id="nav-npm"
               className="docs-nav-link-icon"
-              href={import.meta.env.VITE_NPM_URL}
+              href={EXTERNAL_LINKS.NPM}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="NPM"
@@ -231,7 +234,7 @@ export function DocsLayout({
             <a
               id="nav-github"
               className="docs-nav-link-icon"
-              href={import.meta.env.VITE_GITHUB_URL}
+              href={EXTERNAL_LINKS.GITHUB}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
@@ -304,7 +307,9 @@ export function DocsLayout({
               >
                 {anchorItems.length > 0 && (
                   <div className="docs-anchor-wrap">
-                    <div className="docs-anchor-title">On this page</div>
+                    <div className="docs-anchor-title">
+                      {t("i18n.anchorTitle", { defaultValue: i18n.language === 'vi' ? 'Nội dung trang này' : 'On this page' })}
+                    </div>
                     <Anchor
                       className="docs-anchor"
                       items={anchorItems}

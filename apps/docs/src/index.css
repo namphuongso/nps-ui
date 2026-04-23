@@ -51,18 +51,32 @@ body {
   background: var(--surface-0);
   color: var(--text-primary);
   font-family:
-    "Inter",
+    "Outfit",
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
+    Roboto,
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Force Outfit on all Ant Design components */
+.ant-btn, 
+.ant-menu, 
+.ant-typography, 
+.ant-select, 
+.ant-input, 
+.ant-tag, 
+.ant-anchor,
+.ant-timeline {
+  font-family: "Outfit", sans-serif !important;
 }
 
 a {
@@ -120,10 +134,11 @@ a {
 }
 
 .docs-brand-ui {
+  font-family: "Plus Jakarta Sans", sans-serif;
   color: var(--brand-navy);
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-weight: 800;
+  letter-spacing: 0.04em;
   line-height: 1;
   padding: 3px 8px;
   background: rgba(0, 58, 120, 0.08);
@@ -236,13 +251,14 @@ a {
 }
 
 .docs-sider-heading {
+  font-family: "Outfit", sans-serif;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-tertiary);
   padding: 16px 12px 6px;
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 .docs-sider-heading:first-child {
@@ -463,10 +479,11 @@ a {
 }
 
 .docs-hero-title {
-  font-size: 48px !important;
-  font-weight: 700 !important;
-  line-height: 1.12 !important;
-  letter-spacing: -0.02em !important;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 62px !important; /* Increased size */
+  font-weight: 800 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.05em !important; /* Tight tracking for premium look */
   color: var(--text-primary) !important;
   margin: 0 0 16px !important;
 }
@@ -478,11 +495,13 @@ a {
 }
 
 .docs-hero-sub {
-  font-size: 17px !important;
+  font-size: 18px !important;
+  font-weight: 300 !important; /* Elegant light weight */
   color: var(--text-secondary) !important;
-  line-height: 1.65 !important;
-  max-width: 560px !important;
+  line-height: 1.7 !important;
+  max-width: 600px !important;
   margin: 0 0 32px !important;
+  letter-spacing: 0.01em;
 }
 
 .docs-hero-actions {
@@ -545,11 +564,12 @@ a {
    Section headers
    ───────────────────────────────────────── */
 .docs-section-title {
-  font-size: 28px !important;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 34px !important;
   font-weight: 700 !important;
-  letter-spacing: -0.01em !important;
-  color: var(--text-primary) !important;
-  margin: 0 0 6px !important;
+  letter-spacing: -0.04em !important;
+  color: var(--brand-navy) !important; /* Used brand color for section titles */
+  margin: 0 0 8px !important;
 }
 
 .docs-section-sub {
@@ -598,8 +618,9 @@ a {
 }
 
 .docs-ant-ref-callout-title {
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   color: #1e40af;
   margin: 0 0 6px;
 }

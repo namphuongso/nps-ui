@@ -1,7 +1,8 @@
 import { Col, Row, Space, Typography } from "antd";
 import { NpsButton } from "nps-ui";
-import { CodeBlock } from "../components/docs/CodeBlock";
-import type { DocsAnchorItem } from "../components/docs/DocsLayout";
+import { CodeBlock } from "../../components/docs/CodeBlock";
+import { SEO } from "../../components/docs/SEO";
+import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -26,55 +27,50 @@ export default function Example() {
   );
 }`;
 
-export const gettingStartedAnchorItems: DocsAnchorItem[] = [
-  { key: "overview", href: "#overview", title: "Overview" },
-  { key: "installation", href: "#installation", title: "Installation" },
-  { key: "usage", href: "#usage", title: "Use with Ant" },
-];
-
-const features = [
-  {
-    icon: "🧩",
-    title: "Ant Design Compatible",
-    desc: "Kế thừa toàn bộ props và token từ ConfigProvider của Ant.",
-  },
-  {
-    icon: "⚡",
-    title: "Lightweight",
-    desc: "Wrapper mỏng, không thêm dependency ngoài Ant Design.",
-  },
-  {
-    icon: "🎨",
-    title: "Themeable",
-    desc: "Tự nhận token theme từ project host, không áp đặt style riêng.",
-  },
-  {
-    icon: "🔷",
-    title: "TypeScript First",
-    desc: "Type-safe với đầy đủ props và generic type exports.",
-  },
-];
-
 export function GettingStartedPage() {
+  const { t } = useTranslation("gettingStarted");
+
+  const features = [
+    {
+      icon: "🧩",
+      title: t("features.items.ant.title"),
+      desc: t("features.items.ant.desc"),
+    },
+    {
+      icon: "⚡",
+      title: t("features.items.lightweight.title"),
+      desc: t("features.items.lightweight.desc"),
+    },
+    {
+      icon: "🎨",
+      title: t("features.items.themeable.title"),
+      desc: t("features.items.themeable.desc"),
+    },
+    {
+      icon: "🔷",
+      title: t("features.items.typescript.title"),
+      desc: t("features.items.typescript.desc"),
+    },
+  ];
+
   return (
     <div className="space-y-16">
+      <SEO title={t("title")} description={t("subtitle")} />
       {/* ── Hero ───────────────────────────────── */}
       <section id="overview" className="docs-section docs-hero">
         <div className="docs-hero-badge">
           <span className="docs-hero-badge-dot" />
-          Ant Design Compatible · React · TypeScript
+          {t("badge")}
         </div>
 
         <Title className="docs-hero-title">
-          Build faster with
+          {t("hero.title").split('\n')[0]}
           <br />
-          NPS UI
+          {t("hero.title").split('\n')[1] || "with NPS UI"}
         </Title>
 
         <Paragraph className="docs-hero-sub">
-          Thư viện component xây trên nền Ant Design. Dùng quen như Ant, mở rộng
-          thêm khi cần — và luôn tương thích với{" "}
-          <Text code>ConfigProvider</Text> của dự án bạn.
+          {t("hero.subtitle")}
         </Paragraph>
 
         <div className="docs-hero-actions">
@@ -90,7 +86,7 @@ export function GettingStartedPage() {
               paddingInline: 24,
             }}
           >
-            Xem Components →
+            {t("exploreComponents", { ns: "common", defaultValue: "Explore Components →" })}
           </NpsButton>
           <NpsButton
             id="hero-btn-install"
@@ -98,7 +94,7 @@ export function GettingStartedPage() {
             href="#installation"
             style={{ height: 44, paddingInline: 24 }}
           >
-            Cài đặt
+            {t("installation.title")} {t("guide", { ns: "common", defaultValue: "Guide" })}
           </NpsButton>
         </div>
 
@@ -117,10 +113,10 @@ export function GettingStartedPage() {
       {/* ── Installation ───────────────────────── */}
       <section id="installation" className="docs-section">
         <Title level={2} className="docs-section-title">
-          Installation
+          {t("installation.title")}
         </Title>
         <Paragraph className="docs-section-sub">
-          Cài thư viện vào project Ant đang có sẵn của bạn.
+          {t("installation.desc")}
         </Paragraph>
         <CodeBlock code={installSnippet} lang="bash" />
       </section>
@@ -128,11 +124,10 @@ export function GettingStartedPage() {
       {/* ── Usage ──────────────────────────────── */}
       <section id="usage" className="docs-section">
         <Title level={2} className="docs-section-title">
-          Use with your Ant project
+          {t("usage.title")}
         </Title>
         <Paragraph className="docs-section-sub">
-          Import component và đặt bên trong <Text code>ConfigProvider</Text>{" "}
-          hiện có của app. Không cần provider riêng.
+          {t("usage.desc")}
         </Paragraph>
 
         <Row gutter={[16, 16]}>
@@ -142,10 +137,10 @@ export function GettingStartedPage() {
               style={{ border: "1px solid #e2e8f0", borderRadius: 16 }}
             >
               <Text strong className="block text-slate-900 mb-1">
-                Live Preview
+                {t("usage.preview")}
               </Text>
               <Paragraph className="text-slate-500 text-sm mb-4">
-                Đang dùng style mặc định của Ant Design.
+                {t("usage.previewDesc")}
               </Paragraph>
               <div className="docs-preview-surface">
                 <Space wrap size={[12, 12]}>
@@ -166,18 +161,15 @@ export function GettingStartedPage() {
               style={{ border: "1px solid #e2e8f0", borderRadius: 16 }}
             >
               <Text strong className="block text-slate-900 mb-3">
-                Theme Compatibility
+                {t("usage.themeSync")}
               </Text>
               <ul
                 className="space-y-2 pl-5 text-sm text-slate-500"
                 style={{ lineHeight: 1.7 }}
               >
-                <li>Không bắt buộc dùng provider riêng của thư viện.</li>
-                <li>
-                  Nhận token từ <code>ConfigProvider</code> của project host.
-                </li>
-                <li>Giữ UI gần Ant nhất để dễ tích hợp.</li>
-                <li>Không áp đặt theme hoặc CSS global riêng.</li>
+                {(t("usage.themeSyncItems", { returnObjects: true }) as string[]).map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
               </ul>
             </div>
           </Col>
@@ -190,3 +182,9 @@ export function GettingStartedPage() {
     </div>
   );
 }
+
+export const gettingStartedAnchorItems = [
+  { key: "overview", href: "#overview", title: "Overview" },
+  { key: "installation", href: "#installation", title: "Installation" },
+  { key: "usage", href: "#usage", title: "Usage" },
+];

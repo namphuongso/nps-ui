@@ -1,7 +1,8 @@
 import { NpsButton } from "nps-ui";
-import { Typography, Space, Tag } from "antd";
-import { CodeBlock } from "../components/docs/CodeBlock";
-import type { DocsAnchorItem } from "../components/docs/DocsLayout";
+import { Typography, Space } from "antd";
+import { CodeBlock } from "../../components/docs/CodeBlock";
+import { SEO } from "../../components/docs/SEO";
+import { useTranslation } from "react-i18next";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -26,48 +27,48 @@ export default function App() {
   );
 }`;
 
-export const homeAnchorItems: DocsAnchorItem[] = [
-  { key: "hero", href: "#hero", title: "Overview" },
-  { key: "features", href: "#features", title: "Features" },
-  { key: "quickstart", href: "#quickstart", title: "Quick Start" },
-];
-
-const features = [
-  {
-    icon: "🧩",
-    title: "Ant Design Compatible",
-    desc: "Kế thừa toàn bộ props và token từ ConfigProvider của Ant Design. Không cần wrapper riêng.",
-  },
-  {
-    icon: "⚡",
-    title: "Lightweight",
-    desc: "Wrapper mỏng, không thêm dependency ngoài Ant Design. Cài xong dùng ngay.",
-  },
-  {
-    icon: "🎨",
-    title: "Fully Themeable",
-    desc: "Tự nhận token theme từ project host. Không áp đặt style riêng, không conflict CSS.",
-  },
-  {
-    icon: "🔷",
-    title: "TypeScript First",
-    desc: "Type-safe với đầy đủ props, generic type exports và declaration files (.d.ts).",
-  },
-  {
-    icon: "📦",
-    title: "Tree-shakeable",
-    desc: "Dual ESM/CJS build. Import component nào, bundle chỉ chứa component đó.",
-  },
-  {
-    icon: "🚀",
-    title: "Production Ready",
-    desc: "Đã publish lên npm. Version-controlled, changelog rõ ràng, semantic versioning.",
-  },
-];
-
 export function HomePage() {
+  const { t } = useTranslation("home");
+
+  const features = [
+    {
+      icon: "🧩",
+      title: t("features.items.ant.title"),
+      desc: t("features.items.ant.desc"),
+    },
+    {
+      icon: "⚡",
+      title: t("features.items.performance.title"),
+      desc: t("features.items.performance.desc"),
+    },
+    {
+      icon: "🎨",
+      title: t("features.items.theme.title"),
+      desc: t("features.items.theme.desc"),
+    },
+    {
+      icon: "🔷",
+      title: t("features.items.typescript.title"),
+      desc: t("features.items.typescript.desc"),
+    },
+    {
+      icon: "📦",
+      title: t("features.items.treeShaking.title"),
+      desc: t("features.items.treeShaking.desc"),
+    },
+    {
+      icon: "🚀",
+      title: t("features.items.production.title"),
+      desc: t("features.items.production.desc"),
+    },
+  ];
+
   return (
     <div>
+      <SEO
+        title={t("seo.title", { defaultValue: "Home" })}
+        description={t("hero.subtitle")}
+      />
       {/* ── Hero ─────────────────────────────────────── */}
       <section id="hero" className="docs-section docs-home-hero">
         <div className="docs-home-hero-badge-row">
@@ -78,13 +79,12 @@ export function HomePage() {
         </div>
 
         <Title className="docs-home-hero-title">
-          Build faster with <span className="docs-home-hero-brand">NPS UI</span>
+          {t("hero.title")}{" "}
+          <span className="docs-home-hero-brand">NPS UI</span>
         </Title>
 
         <Paragraph className="docs-hero-sub">
-          Thư viện React component được xây dựng trên nền Ant Design. Dùng quen
-          như Ant, mở rộng thêm khi cần — và luôn tương thích với{" "}
-          <Text code>ConfigProvider</Text> của dự án bạn.
+          {t("hero.subtitle")}
         </Paragraph>
 
         <div className="docs-hero-actions">
@@ -101,7 +101,7 @@ export function HomePage() {
               fontWeight: 600,
             }}
           >
-            Get Started →
+            {t("getStarted", { defaultValue: "Get Started →", ns: "common" })}
           </NpsButton>
           <NpsButton
             id="hero-btn-components"
@@ -109,17 +109,17 @@ export function HomePage() {
             href="/components/button"
             style={{ height: 44, paddingInline: 24 }}
           >
-            View Components
+            {t("exploreComponents", { defaultValue: "Explore Components", ns: "common" })}
           </NpsButton>
         </div>
 
         {/* Stats row */}
         <div className="docs-home-stats-row">
           {[
-            { value: "1+", label: "Components" },
-            { value: "MIT", label: "License" },
-            { value: "TypeScript", label: "First-class" },
-            { value: "Ant v5", label: "Compatible" },
+            { value: "1+", label: t("stats.components") },
+            { value: "MIT", label: t("stats.license") },
+            { value: "TypeScript", label: t("stats.reliable") },
+            { value: "Ant v5", label: t("stats.compatible") },
           ].map((stat) => (
             <div key={stat.label} className="docs-home-stat-item">
               <span className="docs-home-stat-value">{stat.value}</span>
@@ -131,7 +131,7 @@ export function HomePage() {
 
       {/* ── Live Preview ─────────────────────────────── */}
       <section className="docs-home-preview-section">
-        <div className="docs-home-preview-label">Live Preview</div>
+        <div className="docs-home-preview-label">{t("usage.preview", { ns: "gettingStarted", defaultValue: "Live Preview" })}</div>
         <div
           className="docs-preview-surface"
           style={{ justifyContent: "center", minHeight: 80 }}
@@ -158,11 +158,10 @@ export function HomePage() {
         style={{ paddingTop: 48 }}
       >
         <Title level={2} className="docs-section-title">
-          Why NPS UI?
+          {t("features.title")}
         </Title>
         <Paragraph className="docs-section-sub">
-          Được thiết kế để mở rộng Ant Design một cách tự nhiên, không phá vỡ
-          design system hiện có.
+          {t("features.subtitle")}
         </Paragraph>
 
         <div className="docs-feature-grid">
@@ -183,16 +182,16 @@ export function HomePage() {
         style={{ paddingTop: 48, paddingBottom: 48 }}
       >
         <Title level={2} className="docs-section-title">
-          Quick Start
+          {t("quickStart.title")}
         </Title>
         <Paragraph className="docs-section-sub">
-          Cài đặt và dùng ngay trong project Ant Design đang có sẵn của bạn.
+          {t("quickStart.subtitle")}
         </Paragraph>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div>
             <Text strong className="docs-quickstart-step-label">
-              1. Install
+              {t("quickStart.install")}
             </Text>
             <div style={{ marginTop: 8 }}>
               <CodeBlock code={installSnippet} lang="bash" />
@@ -200,7 +199,7 @@ export function HomePage() {
           </div>
           <div>
             <Text strong className="docs-quickstart-step-label">
-              2. Import & Use
+              {t("quickStart.import")}
             </Text>
             <div style={{ marginTop: 8 }}>
               <CodeBlock code={usageSnippet} lang="tsx" />
@@ -221,10 +220,16 @@ export function HomePage() {
               paddingInline: 24,
             }}
           >
-            Read the full guide →
+            {t("readGuide", { ns: "common", defaultValue: "Read the full guide →" })}
           </NpsButton>
         </div>
       </section>
     </div>
   );
 }
+
+export const homeAnchorItems = [
+  { key: "hero", href: "#hero", title: "Overview" },
+  { key: "features", href: "#features", title: "Features" },
+  { key: "quickstart", href: "#quickstart", title: "Quick Start" },
+];

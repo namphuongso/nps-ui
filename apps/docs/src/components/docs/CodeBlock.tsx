@@ -1,9 +1,5 @@
 import { useState } from "react";
-
-interface CodeBlockProps {
-  code: string;
-  lang?: string;
-}
+import type { CodeBlockProps } from "./types";
 
 export function CodeBlock({ code, lang = "tsx" }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
