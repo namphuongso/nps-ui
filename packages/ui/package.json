@@ -1,6 +1,6 @@
 {
   "name": "@namphuongtechnologi/nps-ui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "NPS UI - High-performance React Component Library built on Ant Design and Tailwind CSS. Optimized for enterprise-grade applications by Nam Phuong Technology.",
   "type": "module",
   "main": "./dist/nps-ui.cjs",
