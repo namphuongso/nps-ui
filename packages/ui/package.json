@@ -24,7 +24,8 @@
     "./style.css": "./dist/style.css"
   },
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "antd": "^5.0.0",

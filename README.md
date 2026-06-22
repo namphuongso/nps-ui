@@ -19,9 +19,8 @@ Thư viện Component chuyên nghiệp dựa trên **Ant Design** và **Tailwind
 ## 📖 Mục lục
 
 1. [Hướng dẫn cho Người dùng (User Guide)](#-hướng-dẫn-cho-người-dùng)
-2. [Hướng dẫn Phát triển (Developer Guide)](#-hướng-dẫn-phát-triển)
-3. [Quy trình Release tự động (Automation)](#-quy-trình-release-tự-động)
-4. [Cấu trúc dự án](#-cấu trúc-dự-án)
+2. [Hướng dẫn Phát triển (Developer Guide)](./DEVELOPMENT.md)
+3. [Cấu trúc dự án](#-cấu-trúc-dự-án)
 
 ---
 
@@ -47,63 +46,9 @@ export default function App() {
 
 ## 💻 Hướng dẫn Phát triển
 
-### 1. Chuẩn bị môi trường
+Chi tiết về cách thiết lập môi trường, quy chuẩn viết code, quy trình đóng góp và cơ chế phát hành (release) tự động được trình bày chi tiết tại:
 
-- **Yêu cầu**: Node.js v20+, npm v9+.
-- **Setup**:
-  ```bash
-  git clone <repo-url>
-  npm install
-  npm run dev:docs # Khởi chạy website tài liệu tại http://localhost:3000
-  ```
-
-### 2. Thêm Component mới
-
-1. **Source**: Tạo tại `packages/ui/src/components/<name>/`.
-2. **Export**: Đăng ký tại `packages/ui/src/index.ts`.
-3. **Docs**: Tạo thư mục tại `apps/docs/src/pages/components/<name>/`. Bao gồm `index.tsx` (logic) và `locales.ts` (đa ngôn ngữ).
-4. **Test**: Mọi component phải có file `.test.tsx` đi kèm.
-
-### 3. Tiêu chuẩn Code Style
-
-- Dùng **Functional Components** + Hooks.
-- Mọi logic tùy chỉnh style phải dùng **Tailwind CSS**.
-- Trước khi commit, bắt buộc chạy:
-  ```bash
-  npm run format && npm run lint && npm run test
-  ```
-
----
-
-## 🤖 Quy trình Release tự động
-
-Dự án sử dụng **Changesets** kết hợp với **GitHub Actions** để tự động hóa việc đưa code lên NPM.
-
-### Bước 1: Ghi nhận thay đổi (Dành cho Dev)
-
-Khi bạn hoàn thành 1 tính năng/fix lỗi, hãy chạy:
-
-```bash
-npx changeset
-```
-
-- Chọn loại version (`patch`/`minor`/`major`).
-- Viết mô tả ngắn. Sau đó push code lên GitHub.
-
-### Bước 2: Tự động hóa Pipeline
-
-1. Khi push vào nhánh `main`, GitHub Action sẽ tự động tạo một PR **"Version Packages"**.
-2. Khi PR này được **Merge**, GitHub sẽ tự động:
-   - Build thư viện.
-   - Publish lên NPM với version mới.
-   - Tạo GitHub Release & Changelog.
-
-### 🔐 Cấu hình quan trọng (Chỉ làm 1 lần)
-
-Để quy trình tự động hoạt động, chủ sở hữu repo cần:
-
-1. Tạo **NPM Automation Token** tại [npmjs.com](https://www.npmjs.com/settings/quocvan289/tokens).
-2. Thêm vào GitHub Secrets của repo (`Settings > Secrets > Actions`) với tên: **`NPM_TOKEN`**.
+👉 **[Hướng dẫn Phát triển & Đóng góp (DEVELOPMENT.md)](./DEVELOPMENT.md)**
 
 ---
 
