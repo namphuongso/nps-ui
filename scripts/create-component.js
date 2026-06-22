@@ -42,7 +42,9 @@ async function start() {
 
   let componentInput = process.argv[2];
   if (!componentInput) {
-    componentInput = await ask("Nhập tên component mới (Ví dụ: Table hoặc date-picker): ");
+    componentInput = await ask(
+      "Nhập tên component mới (Ví dụ: Table hoặc date-picker): ",
+    );
   }
 
   if (!componentInput) {
@@ -61,11 +63,17 @@ async function start() {
 
   // Define paths
   const compDir = path.join(ROOT_DIR, "packages/ui/src/components", kebabName);
-  const docDir = path.join(ROOT_DIR, "apps/docs/src/pages/components", kebabName);
+  const docDir = path.join(
+    ROOT_DIR,
+    "apps/docs/src/pages/components",
+    kebabName,
+  );
 
   // 1. Check folder existence
   if (fs.existsSync(compDir)) {
-    console.error(`❌ Lỗi: Thư mục component đã tồn tại tại packages/ui/src/components/${kebabName}`);
+    console.error(
+      `❌ Lỗi: Thư mục component đã tồn tại tại packages/ui/src/components/${kebabName}`,
+    );
     process.exit(1);
   }
 
@@ -233,22 +241,29 @@ export const ${camelName}AnchorItems = [
   const navFile = path.join(ROOT_DIR, "apps/docs/src/config/navigation.ts");
   if (fs.existsSync(navFile)) {
     let content = fs.readFileSync(navFile, "utf8");
-    const buttonNavTarget = `key: "/components/button",`;
-    
+    const buttonNavTarget = `key: "/components/infinite-auto-complete",`;
+
     // Inject the new nav link right before the button nav
     const newNav = `key: "/components/${kebabName}",
     label: "${pascalName}",
     path: "/components/${kebabName}",
   },
   {
-    key: "/components/button",`;
+    key: "/components/infinite-auto-complete",`;
 
-    if (content.includes(buttonNavTarget) && !content.includes(`key: "/components/${kebabName}"`)) {
+    if (
+      content.includes(buttonNavTarget) &&
+      !content.includes(`key: "/components/${kebabName}"`)
+    ) {
       content = content.replace(buttonNavTarget, newNav);
       fs.writeFileSync(navFile, content, "utf8");
-      console.log(`🔗 Đã cập nhật navigation trong apps/docs/src/config/navigation.ts`);
+      console.log(
+        `🔗 Đã cập nhật navigation trong apps/docs/src/config/navigation.ts`,
+      );
     } else {
-      console.warn(`⚠️ Cảnh báo: Không tự động cập nhật được navigation. Vui lòng thêm thủ công vào ${path.relative(ROOT_DIR, navFile)}`);
+      console.warn(
+        `⚠️ Cảnh báo: Không tự động cập nhật được navigation. Vui lòng thêm thủ công vào ${path.relative(ROOT_DIR, navFile)}`,
+      );
     }
   }
 
@@ -256,23 +271,32 @@ export const ${camelName}AnchorItems = [
   const appFile = path.join(ROOT_DIR, "apps/docs/src/App.tsx");
   if (fs.existsSync(appFile)) {
     let content = fs.readFileSync(appFile, "utf8");
-    const importTarget = `import { ButtonPage, buttonAnchorItems } from "./pages/components/button";`;
-    const importReplacement = `import { ButtonPage, buttonAnchorItems } from "./pages/components/button";\nimport { ${pascalName}Page, ${camelName}AnchorItems } from "./pages/components/${kebabName}";`;
-    
-    const routeTarget = `"/components/button": {`;
+    const importTarget = `import {
+  InfiniteAutoCompletePage,
+  infiniteAutoCompleteAnchorItems,
+} from "./pages/components/infinite-auto-complete";`;
+    const importReplacement = `${importTarget}\nimport { ${pascalName}Page, ${camelName}AnchorItems } from "./pages/components/${kebabName}";`;
+
+    const routeTarget = `"/components/infinite-auto-complete": {`;
     const routeReplacement = `"/components/${kebabName}": {
     path: "/components/${kebabName}",
     anchorItems: ${camelName}AnchorItems,
     content: <${pascalName}Page />,
   },
-  "/components/button": {`;
+  "/components/infinite-auto-complete": {`;
 
     let updated = false;
-    if (content.includes(importTarget) && !content.includes(`import { ${pascalName}Page,`)) {
+    if (
+      content.includes(importTarget) &&
+      !content.includes(`import { ${pascalName}Page,`)
+    ) {
       content = content.replace(importTarget, importReplacement);
       updated = true;
     }
-    if (content.includes(routeTarget) && !content.includes(`content: <${pascalName}Page />`)) {
+    if (
+      content.includes(routeTarget) &&
+      !content.includes(`content: <${pascalName}Page />`)
+    ) {
       content = content.replace(routeTarget, routeReplacement);
       updated = true;
     }
@@ -281,7 +305,9 @@ export const ${camelName}AnchorItems = [
       fs.writeFileSync(appFile, content, "utf8");
       console.log(`🔗 Đã cập nhật routes trong apps/docs/src/App.tsx`);
     } else {
-      console.warn(`⚠️ Cảnh báo: Không tự động cập nhật được routes trong App.tsx. Vui lòng cập nhật thủ công.`);
+      console.warn(
+        `⚠️ Cảnh báo: Không tự động cập nhật được routes trong App.tsx. Vui lòng cập nhật thủ công.`,
+      );
     }
   }
 
@@ -289,52 +315,76 @@ export const ${camelName}AnchorItems = [
   const i18nFile = path.join(ROOT_DIR, "apps/docs/src/i18n/index.ts");
   if (fs.existsSync(i18nFile)) {
     let content = fs.readFileSync(i18nFile, "utf8");
-    const importTarget = `import { buttonLocales } from "../pages/components/button/locales";`;
-    const importReplacement = `import { buttonLocales } from "../pages/components/button/locales";\nimport { ${camelName}Locales } from "../pages/components/${kebabName}/locales";`;
+    const importTarget = `import { infiniteAutoCompleteLocales } from "../pages/components/infinite-auto-complete/locales";`;
+    const importReplacement = `import { infiniteAutoCompleteLocales } from "../pages/components/infinite-auto-complete/locales";\nimport { ${camelName}Locales } from "../pages/components/${kebabName}/locales";`;
 
-    const enTarget = `button: buttonLocales.en,`;
-    const enReplacement = `button: buttonLocales.en,\n        ${camelName}: ${camelName}Locales.en,`;
+    const enTarget = `infiniteAutoComplete: infiniteAutoCompleteLocales.en,`;
+    const enReplacement = `infiniteAutoComplete: infiniteAutoCompleteLocales.en,\n        ${camelName}: ${camelName}Locales.en,`;
 
-    const viTarget = `button: buttonLocales.vi,`;
-    const viReplacement = `button: buttonLocales.vi,\n        ${camelName}: ${camelName}Locales.vi,`;
+    const viTarget = `infiniteAutoComplete: infiniteAutoCompleteLocales.vi,`;
+    const viReplacement = `infiniteAutoComplete: infiniteAutoCompleteLocales.vi,\n        ${camelName}: ${camelName}Locales.vi,`;
 
     let updated = false;
-    if (content.includes(importTarget) && !content.includes(`import { ${camelName}Locales }`)) {
+    if (
+      content.includes(importTarget) &&
+      !content.includes(`import { ${camelName}Locales }`)
+    ) {
       content = content.replace(importTarget, importReplacement);
       updated = true;
     }
-    if (content.includes(enTarget) && !content.includes(`${camelName}: ${camelName}Locales.en`)) {
+    if (
+      content.includes(enTarget) &&
+      !content.includes(`${camelName}: ${camelName}Locales.en`)
+    ) {
       content = content.replace(enTarget, enReplacement);
       updated = true;
     }
-    if (content.includes(viTarget) && !content.includes(`${camelName}: ${camelName}Locales.vi`)) {
+    if (
+      content.includes(viTarget) &&
+      !content.includes(`${camelName}: ${camelName}Locales.vi`)
+    ) {
       content = content.replace(viTarget, viReplacement);
       updated = true;
     }
 
     if (updated) {
       fs.writeFileSync(i18nFile, content, "utf8");
-      console.log(`🔗 Đã cập nhật đa ngôn ngữ trong apps/docs/src/i18n/index.ts`);
+      console.log(
+        `🔗 Đã cập nhật đa ngôn ngữ trong apps/docs/src/i18n/index.ts`,
+      );
     } else {
-      console.warn(`⚠️ Cảnh báo: Không tự động cập nhật được cấu hình i18n. Vui lòng cấu hình thủ công.`);
+      console.warn(
+        `⚠️ Cảnh báo: Không tự động cập nhật được cấu hình i18n. Vui lòng cấu hình thủ công.`,
+      );
     }
   }
 
   // 8. Run prettier formatting
   try {
     console.log(`\n🧹 Đang định dạng mã nguồn bằng Prettier...`);
-    execSync(`npx prettier --write packages/ui/src/components/${kebabName} apps/docs/src/pages/components/${kebabName} packages/ui/src/index.ts apps/docs/src/config/navigation.ts apps/docs/src/App.tsx apps/docs/src/i18n/index.ts`, {
-      cwd: ROOT_DIR,
-      stdio: "ignore",
-    });
+    execSync(
+      `npx prettier --write packages/ui/src/components/${kebabName} apps/docs/src/pages/components/${kebabName} packages/ui/src/index.ts apps/docs/src/config/navigation.ts apps/docs/src/App.tsx apps/docs/src/i18n/index.ts`,
+      {
+        cwd: ROOT_DIR,
+        stdio: "ignore",
+      },
+    );
     console.log("✅ Đã tự động định dạng các tệp tin mới và thay đổi.");
   } catch (err) {
-    console.warn("⚠️ Cảnh báo: Không chạy được Prettier để định dạng. Bạn hãy chạy `npm run format` sau.");
+    console.warn(
+      "⚠️ Cảnh báo: Không chạy được Prettier để định dạng. Bạn hãy chạy `npm run format` sau.",
+    );
   }
 
-  console.log(`\n🎉 Thành công! Đã tạo và thiết lập component mới "${pascalName}" thành công.`);
-  console.log(`👉 Bạn có thể bắt đầu phát triển logic tại packages/ui/src/components/${kebabName}/Nps${pascalName}.tsx`);
-  console.log(`👉 Khởi chạy docs với lệnh "npm run dev:docs" để xem thành quả.`);
+  console.log(
+    `\n🎉 Thành công! Đã tạo và thiết lập component mới "${pascalName}" thành công.`,
+  );
+  console.log(
+    `👉 Bạn có thể bắt đầu phát triển logic tại packages/ui/src/components/${kebabName}/Nps${pascalName}.tsx`,
+  );
+  console.log(
+    `👉 Khởi chạy docs với lệnh "npm run dev:docs" để xem thành quả.`,
+  );
 }
 
 start().catch((err) => {

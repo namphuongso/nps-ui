@@ -20,7 +20,6 @@ const { Sider, Content } = Layout;
 
 const TOPBAR_H = 64;
 
-
 /** Custom scroll-spy */
 function useActiveAnchor(items: DocsAnchorItem[]) {
   const [activeHref, setActiveHref] = useState<string>(items[0]?.href ?? "");
@@ -100,14 +99,18 @@ export function DocsLayout({
   // Convert nav config to Ant Menu items
   const guideMenuItems = GUIDE_NAV.map((item) => ({
     key: item.path ?? item.key,
-    label: t(item.key.split('/').pop() === 'getting-started' ? 'gettingStarted' : 'guide'),
+    label: t(
+      item.key.split("/").pop() === "getting-started"
+        ? "gettingStarted"
+        : "guide",
+    ),
   }));
 
   const componentMenuItems = COMPONENT_NAV.map((item) => ({
     key: item.path ?? item.key,
     label: item.label, // These are product names, usually keep as is or translate if needed
   }));
-/* 
+  /* 
   Actually Button is fine as "Button", but if we had "Bảng" vs "Table" we'd use:
   label: t(`components.${item.key.split('/').pop()}`)
 */
@@ -308,7 +311,12 @@ export function DocsLayout({
                 {anchorItems.length > 0 && (
                   <div className="docs-anchor-wrap">
                     <div className="docs-anchor-title">
-                      {t("i18n.anchorTitle", { defaultValue: i18n.language === 'vi' ? 'Nội dung trang này' : 'On this page' })}
+                      {t("i18n.anchorTitle", {
+                        defaultValue:
+                          i18n.language === "vi"
+                            ? "Nội dung trang này"
+                            : "On this page",
+                      })}
                     </div>
                     <Anchor
                       className="docs-anchor"

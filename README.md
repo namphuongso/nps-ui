@@ -35,10 +35,10 @@ npm install @namphuongtechnologi/nps-ui antd
 ### Sử dụng cơ bản
 
 ```tsx
-import { NpsButton } from "@namphuongtechnologi/nps-ui";
+import { NpsInfiniteAutoComplete } from "@namphuongtechnologi/nps-ui";
 
 export default function App() {
-  return <NpsButton type="primary">NPS UI Button</NpsButton>;
+  return <NpsInfiniteAutoComplete />;
 }
 ```
 

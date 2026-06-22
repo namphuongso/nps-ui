@@ -38,7 +38,7 @@ _(Lưu ý: `nps-ui` yêu cầu `react`, `react-dom` và `antd` làm peer depende
 ```tsx
 import React from "react";
 import { ConfigProvider } from "antd";
-import { NpsButton } from "@namphuongtechnologi/nps-ui";
+import { NpsInfiniteAutoComplete } from "@namphuongtechnologi/nps-ui";
 import "antd/dist/reset.css"; // Quan trọng: Reset CSS của Ant Design
 
 export default function App() {
@@ -52,15 +52,9 @@ export default function App() {
       }}
     >
       <div style={{ padding: 24 }}>
-        <h2>Ví dụ sử dụng NPS Button</h2>
+        <h2>Ví dụ sử dụng NPS InfiniteAutoComplete</h2>
 
-        <NpsButton type="primary">Hành động chính</NpsButton>
-        <NpsButton rounded="full" style={{ marginLeft: 8 }}>
-          Bo tròn hoàn toàn
-        </NpsButton>
-        <NpsButton type="dashed" danger style={{ marginLeft: 8 }}>
-          Hành động nguy hiểm
-        </NpsButton>
+        <NpsInfiniteAutoComplete />
       </div>
     </ConfigProvider>
   );

@@ -13,11 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Added
 
-- **NpsButton** — Button component built on top of Ant Design `Button`
-  - Support all native Ant Design Button props
-  - Custom `rounded` prop: `"default" | "md" | "lg" | "full"`
-  - Full TypeScript support with exported `NpsButtonProps`
-  - Compatible with Ant Design `ConfigProvider` theme tokens
+- **NpsInfiniteAutoComplete** — Infinite autocomplete search component compatible with Ant Design v5
 - **NpsConfigProvider** — Optional provider wrapper for compatibility with Ant Design `ConfigProvider`
 - Monorepo workspace setup (`packages/ui` + `apps/docs`)
 - Documentation site with Getting Started guide and component demos

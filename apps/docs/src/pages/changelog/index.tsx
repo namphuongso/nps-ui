@@ -22,11 +22,12 @@ const CHANGELOG_DATA: VersionEntry[] = [
     version: "0.0.1",
     date: "2026-04-23",
     status: "current",
-    summary: "Initial Release — NpsButton and core infrastructure",
+    summary:
+      "Initial Release — NpsInfiniteAutoComplete and core infrastructure",
     changes: [
       {
         type: "added",
-        text: 'NpsButton — Button component built on top of Ant Design Button với prop tùy chỉnh rounded: "default" | "md" | "lg" | "full"',
+        text: "NpsInfiniteAutoComplete — Infinite autocomplete search component compatible with Ant Design v5",
       },
       {
         type: "added",

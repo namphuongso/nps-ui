@@ -1,18 +1,19 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DocsLayout } from "./components/docs/DocsLayout";
-import type { DocsAnchorItem } from "./components/docs/types";
 import {
   GettingStartedPage,
   gettingStartedAnchorItems,
 } from "./pages/getting-started";
-import { ButtonPage, buttonAnchorItems } from "./pages/components/button";
+import {
+  InfiniteAutoCompletePage,
+  infiniteAutoCompleteAnchorItems,
+} from "./pages/components/infinite-auto-complete";
 import { HomePage, homeAnchorItems } from "./pages/home";
 import { ChangelogPage, changelogAnchorItems } from "./pages/changelog";
 import type { PageConfig } from "./types/router";
 
 const BASE_PATH = "/nps-ui";
 const DEFAULT_PATH = "/guide/getting-started";
-
 
 const pageMap: Record<string, PageConfig> = {
   "/": {
@@ -25,11 +26,12 @@ const pageMap: Record<string, PageConfig> = {
     anchorItems: gettingStartedAnchorItems,
     content: <GettingStartedPage />,
   },
-  "/components/button": {
-    path: "/components/button",
-    anchorItems: buttonAnchorItems,
-    content: <ButtonPage />,
+  "/components/infinite-auto-complete": {
+    path: "/components/infinite-auto-complete",
+    anchorItems: infiniteAutoCompleteAnchorItems,
+    content: <InfiniteAutoCompletePage />,
   },
+
   "/changelog": {
     path: "/changelog",
     anchorItems: changelogAnchorItems,
