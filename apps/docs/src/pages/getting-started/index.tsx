@@ -1,15 +1,16 @@
-import { Col, Row, Space, Typography } from "antd";
-import { NpsButton } from "@namphuongtechnologi/nps-ui";
+import { Col, Row, Typography, Button } from "antd";
+import { NpsInfiniteAutoComplete } from "@namphuongtechnologi/nps-ui";
 import { CodeBlock } from "../../components/docs/CodeBlock";
 import { SEO } from "../../components/docs/SEO";
 import { useTranslation } from "react-i18next";
+import { mockQueryFn } from "../../config/mockData";
 
 const { Title, Paragraph, Text } = Typography;
 
 const installSnippet = `npm install @namphuongtechnologi/nps-ui antd`;
 
 const usageSnippet = `import { ConfigProvider } from "antd";
-import { NpsButton } from "@namphuongtechnologi/nps-ui";
+import { NpsInfiniteAutoComplete } from "@namphuongtechnologi/nps-ui";
 import "antd/dist/reset.css";
 
 export default function Example() {
@@ -22,7 +23,7 @@ export default function Example() {
         },
       }}
     >
-      <NpsButton type="primary">Save</NpsButton>
+      <NpsInfiniteAutoComplete />
     </ConfigProvider>
   );
 }`;
@@ -72,11 +73,11 @@ export function GettingStartedPage() {
         <Paragraph className="docs-hero-sub">{t("hero.subtitle")}</Paragraph>
 
         <div className="docs-hero-actions">
-          <NpsButton
+          <Button
             id="hero-btn-components"
             type="primary"
             size="large"
-            href="/components/button"
+            href="/components/infinite-auto-complete"
             style={{
               background: "#003a78",
               borderColor: "#003a78",
@@ -88,8 +89,8 @@ export function GettingStartedPage() {
               ns: "common",
               defaultValue: "Explore Components →",
             })}
-          </NpsButton>
-          <NpsButton
+          </Button>
+          <Button
             id="hero-btn-install"
             size="large"
             href="#installation"
@@ -97,7 +98,7 @@ export function GettingStartedPage() {
           >
             {t("installation.title")}{" "}
             {t("guide", { ns: "common", defaultValue: "Guide" })}
-          </NpsButton>
+          </Button>
         </div>
 
         {/* Feature cards */}
@@ -143,14 +144,12 @@ export function GettingStartedPage() {
                 {t("usage.previewDesc")}
               </Paragraph>
               <div className="docs-preview-surface">
-                <Space wrap size={[12, 12]}>
-                  <NpsButton type="primary">Primary</NpsButton>
-                  <NpsButton>Default</NpsButton>
-                  <NpsButton type="dashed">Dashed</NpsButton>
-                  <NpsButton rounded="full" type="primary">
-                    Rounded Full
-                  </NpsButton>
-                </Space>
+                <NpsInfiniteAutoComplete
+                  queryKey={["getting-started-list"]}
+                  queryFn={mockQueryFn}
+                  placeholder="Chọn thành phần..."
+                  style={{ width: "100%", maxWidth: 320 }}
+                />
               </div>
             </div>
           </Col>

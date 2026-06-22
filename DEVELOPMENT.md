@@ -8,6 +8,7 @@ Tài liệu này hướng dẫn chi tiết cách phát triển, kiểm thử và
 
 - **Môi trường yêu cầu**: Node.js `v20.12.0+` (hoặc `v22+`), npm `v9+`.
 - **Thiết lập nhanh**:
+
   ```bash
   # 1. Cài đặt các dependencies ở thư mục gốc (monorepo)
   npm install
@@ -36,6 +37,7 @@ npm run create-component rating-bar
 ```
 
 Script này sẽ tự động thực hiện các công việc sau:
+
 1. Tạo thư mục chuẩn tại `packages/ui/src/components/<tên-component>/` chứa các tệp mã nguồn cơ bản (`types.ts`, `Nps<TênComponent>.tsx`, `Nps<TênComponent>.test.tsx`, `index.ts`).
 2. Tạo thư mục tài liệu & tệp ngôn ngữ tương ứng tại `apps/docs/src/pages/components/<tên-component>/` (`index.tsx`, `locales.ts`).
 3. Đăng ký export component trong tệp chính của thư viện `packages/ui/src/index.ts`.
@@ -52,6 +54,7 @@ Sau khi chạy xong, bạn chỉ cần tập trung phát triển logic component
 Khi thêm một component mới, nếu bạn muốn thực hiện thủ công hoặc cần hiểu rõ các liên kết hoạt động như thế nào, hãy làm theo các bước dưới đây:
 
 ### Bước 1: Phát triển mã nguồn Component
+
 1. Tạo thư mục mới tại `packages/ui/src/components/table/`.
 2. Tạo các tệp cần thiết:
    - `types.ts`: Định nghĩa các TypeScript interfaces (kế thừa các props mặc định từ Ant Design nếu cần).
@@ -64,12 +67,15 @@ Khi thêm một component mới, nếu bạn muốn thực hiện thủ công ho
      ```
 
 ### Bước 2: Đăng ký Export trong thư viện
+
 Khai báo dòng export component mới trong tệp chính [packages/ui/src/index.ts](file:///Users/lyquocvan/Documents/NamPhuongSo/nps-ui/packages/ui/src/index.ts) để các dự án bên ngoài có thể import được:
+
 ```typescript
 export * from "./components/table";
 ```
 
 ### Bước 3: Viết tài liệu hướng dẫn sử dụng (Docs)
+
 1. Tạo thư mục demo tại `apps/docs/src/pages/components/table/`.
 2. Tạo các tệp:
    - `locales.ts`: Định nghĩa nội dung mô tả tiếng Anh (`en`) và tiếng Việt (`vi`) cho component.
@@ -77,7 +83,9 @@ export * from "./components/table";
 3. Đăng ký trang mới này vào hệ thống Router tĩnh trong [apps/docs/src/App.tsx](file:///Users/lyquocvan/Documents/NamPhuongSo/nps-ui/apps/docs/src/App.tsx).
 
 ### Bước 4: Đăng ký dịch đa ngôn ngữ (i18n)
+
 Nhập và khai báo tệp dịch locales của component vào tệp cấu hình i18n chính [apps/docs/src/i18n/index.ts](file:///Users/lyquocvan/Documents/NamPhuongSo/nps-ui/apps/docs/src/i18n/index.ts) để trang tài liệu hiển thị được ngôn ngữ đã chọn:
+
 ```typescript
 import { tableLocales } from "../pages/components/table/locales";
 
@@ -95,7 +103,9 @@ vi: {
 ```
 
 ### Bước 5: Kiểm tra trước khi commit
+
 Trước khi tạo Pull Request, bắt buộc chạy chuỗi lệnh sau để đảm bảo chất lượng code và tránh lỗi build trên CI/CD:
+
 ```bash
 npm run format && npm run lint && npm run test
 ```
@@ -115,14 +125,18 @@ npm run format && npm run lint && npm run test
 Dự án sử dụng **Changesets** kết hợp **GitHub Actions** để tự động phát hành lên NPM.
 
 ### 1. Ghi nhận Thay đổi (Local)
+
 Khi hoàn thành tính năng, hãy tạo changeset file bằng cách chạy:
+
 ```bash
 # Sử dụng script trợ lý tiếng Việt
 npm run change
 ```
+
 Lựa chọn loại cập nhật (`patch`/`minor`/`major`) và viết một câu mô tả ngắn gọn. Lưu ý commit file `.changeset/*.md` này lên cùng với code của bạn.
 
 ### 2. Pipeline tự động trên GitHub
+
 - Khi code được merge vào nhánh `main`, hệ thống sẽ chạy kiểm thử và tự động sinh ra một PR mang tên **"Version Packages"**.
 - Khi Admin merge PR **"Version Packages"** này:
   1. Thư viện sẽ tự động chạy lệnh build.

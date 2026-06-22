@@ -20,7 +20,7 @@ export default defineConfig({
       fileName: (format) => `nps-ui.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime", "antd"],
+      external: ["react", "react-dom", "react/jsx-runtime", "antd", "@tanstack/react-query"],
     },
   },
 });

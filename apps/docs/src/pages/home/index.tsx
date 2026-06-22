@@ -1,15 +1,16 @@
-import { NpsButton } from "@namphuongtechnologi/nps-ui";
-import { Typography, Space } from "antd";
+import { NpsInfiniteAutoComplete } from "@namphuongtechnologi/nps-ui";
+import { Typography, Button } from "antd";
 import { CodeBlock } from "../../components/docs/CodeBlock";
 import { SEO } from "../../components/docs/SEO";
 import { useTranslation } from "react-i18next";
+import { mockQueryFn } from "../../config/mockData";
 
 const { Title, Paragraph, Text } = Typography;
 
 const installSnippet = `npm install @namphuongtechnologi/nps-ui antd`;
 
 const usageSnippet = `import { ConfigProvider } from "antd";
-import { NpsButton } from "@namphuongtechnologi/nps-ui";
+import { NpsInfiniteAutoComplete } from "@namphuongtechnologi/nps-ui";
 import "antd/dist/reset.css";
 
 export default function App() {
@@ -22,7 +23,7 @@ export default function App() {
         },
       }}
     >
-      <NpsButton type="primary">Save</NpsButton>
+      <NpsInfiniteAutoComplete />
     </ConfigProvider>
   );
 }`;
@@ -85,7 +86,7 @@ export function HomePage() {
         <Paragraph className="docs-hero-sub">{t("hero.subtitle")}</Paragraph>
 
         <div className="docs-hero-actions">
-          <NpsButton
+          <Button
             id="hero-btn-started"
             type="primary"
             size="large"
@@ -99,18 +100,18 @@ export function HomePage() {
             }}
           >
             {t("getStarted", { defaultValue: "Get Started →", ns: "common" })}
-          </NpsButton>
-          <NpsButton
+          </Button>
+          <Button
             id="hero-btn-components"
             size="large"
-            href="/components/button"
+            href="/components/infinite-auto-complete"
             style={{ height: 44, paddingInline: 24 }}
           >
             {t("exploreComponents", {
               defaultValue: "Explore Components",
               ns: "common",
             })}
-          </NpsButton>
+          </Button>
         </div>
 
         {/* Stats row */}
@@ -141,18 +142,12 @@ export function HomePage() {
           className="docs-preview-surface"
           style={{ justifyContent: "center", minHeight: 80 }}
         >
-          <Space wrap size={[12, 12]}>
-            <NpsButton type="primary">Primary</NpsButton>
-            <NpsButton>Default</NpsButton>
-            <NpsButton type="dashed">Dashed</NpsButton>
-            <NpsButton type="primary" danger>
-              Danger
-            </NpsButton>
-            <NpsButton rounded="full" type="primary">
-              Rounded Full
-            </NpsButton>
-            <NpsButton disabled>Disabled</NpsButton>
-          </Space>
+          <NpsInfiniteAutoComplete
+            queryKey={["home-list"]}
+            queryFn={mockQueryFn}
+            placeholder="Chọn component..."
+            style={{ width: "100%", maxWidth: 320 }}
+          />
         </div>
       </section>
 
@@ -213,7 +208,7 @@ export function HomePage() {
         </div>
 
         <div className="docs-home-cta-row">
-          <NpsButton
+          <Button
             id="home-cta-guide"
             type="primary"
             size="large"
@@ -229,7 +224,7 @@ export function HomePage() {
               ns: "common",
               defaultValue: "Read the full guide →",
             })}
-          </NpsButton>
+          </Button>
         </div>
       </section>
     </div>

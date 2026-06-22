@@ -6,7 +6,8 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import { commonLocales } from "./locales/common";
 import { homeLocales } from "../pages/home/locales";
 import { gettingStartedLocales } from "../pages/getting-started/locales";
-import { buttonLocales } from "../pages/components/button/locales";
+import { infiniteAutoCompleteLocales } from "../pages/components/infinite-auto-complete/locales";
+import { infiniteTreeSelectLocales } from "../pages/components/infinite-tree-select/locales";
 
 i18n
   .use(LanguageDetector)
@@ -17,13 +18,15 @@ i18n
         common: commonLocales.en,
         home: homeLocales.en,
         gettingStarted: gettingStartedLocales.en,
-        button: buttonLocales.en,
+        infiniteAutoComplete: infiniteAutoCompleteLocales.en,
+        infiniteTreeSelect: infiniteTreeSelectLocales.en,
       },
       vi: {
         common: commonLocales.vi,
         home: homeLocales.vi,
         gettingStarted: gettingStartedLocales.vi,
-        button: buttonLocales.vi,
+        infiniteAutoComplete: infiniteAutoCompleteLocales.vi,
+        infiniteTreeSelect: infiniteTreeSelectLocales.vi,
       },
     },
     fallbackLng: "en",

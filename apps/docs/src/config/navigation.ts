@@ -15,15 +15,24 @@ export const GUIDE_NAV: NavItem[] = [
 
 export const COMPONENT_NAV: NavItem[] = [
   {
-    key: "/components/button",
-    label: "Button",
-    path: "/components/button",
+    key: "/components/infinite-tree-select",
+    label: "InfiniteTreeSelect",
+    path: "/components/infinite-tree-select",
+  },
+  {
+    key: "/components/infinite-auto-complete",
+    label: "InfiniteAutoComplete",
+    path: "/components/infinite-auto-complete",
   },
 ];
 
 export const TOP_NAV = [
   { key: "guide", label: "Guide", path: "/guide/getting-started" },
-  { key: "components", label: "Components", path: "/components/button" },
+  {
+    key: "components",
+    label: "Components",
+    path: "/components/infinite-auto-complete",
+  },
   { key: "changelog", label: "Changelog", path: "/changelog" },
 ];
 
