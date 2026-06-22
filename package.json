@@ -18,7 +18,7 @@
     "test:watch": "vitest",
     "version": "changeset version",
     "release": "npm run build && changeset publish",
-    "change": "node scripts/nps-release-ui.js",
+    "change": "node scripts/nps-release-ui.mjs",
     "create-component": "node scripts/create-component.js",
     "clean": "rm -rf dist node_modules packages/*/dist packages/*/node_modules apps/*/dist apps/*/node_modules"
   },

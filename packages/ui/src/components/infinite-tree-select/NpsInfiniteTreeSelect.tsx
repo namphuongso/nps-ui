@@ -1,8 +1,12 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Divider, Spin, TreeSelect, Typography } from "antd";
+import type { TreeSelectProps } from "antd";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
 import type { NpsInfiniteTreeSelectProps } from "./types";
+
+type TreeDataType = NonNullable<TreeSelectProps['treeData']>[number];
 
 const { Text } = Typography;
 
@@ -32,6 +36,7 @@ const extractValues = (val: unknown): (string | number)[] => {
   }
   return [val as string | number];
 };
+
 
 /**
  * Component NpsInfiniteTreeSelect
@@ -200,7 +205,7 @@ export function NpsInfiniteTreeSelect<T>({
 
   // Hàm đệ quy map từ kiểu T sang dạng TreeDataNode của Ant Design
   const mapToTreeData = useCallback(
-    (items: T[]): any[] => {
+    (items: T[]): TreeDataType[] => {
       return items.map((item) => {
         const val = getValue(item);
         const label = getLabel(item);
@@ -252,7 +257,7 @@ export function NpsInfiniteTreeSelect<T>({
 
     // Thêm các defaultItems vào đầu danh sách nếu ô tìm kiếm trống
     if (!debouncedSearch && defaultItems && defaultItems.length > 0) {
-      const mappedDefault = defaultItems.map((item) => ({
+      const mappedDefault: TreeDataType[] = defaultItems.map((item) => ({
         value: item.value,
         title: item.label,
         label: item.label,
@@ -273,17 +278,30 @@ export function NpsInfiniteTreeSelect<T>({
   ]);
 
   // Xử lý khi thay đổi giá trị hoặc chọn node trong cây
-  const handleChange = (val: unknown, labelList: any, extra: any) => {
+  const handleChange = (
+    val: unknown,
+    labelList: ReactNode[],
+    extra: Parameters<NonNullable<TreeSelectProps['onChange']>>[2]
+  ) => {
     let newSelected: T[] = [];
     if (extra) {
-      if (Array.isArray(extra.allCheckedNodes)) {
-        newSelected = extra.allCheckedNodes
-          .map((n: any) => n.node?.dataRef || n.node?.props?.dataRef)
+      const extraObj = extra as unknown as Record<string, unknown>;
+      if (Array.isArray(extraObj.allCheckedNodes)) {
+        newSelected = extraObj.allCheckedNodes
+          .map((n) => {
+            const node = (n as Record<string, unknown>)?.node as Record<string, unknown> | undefined;
+            const props = node?.props as Record<string, unknown> | undefined;
+            return (node?.dataRef || props?.dataRef) as T | undefined;
+          })
           .filter(Boolean) as T[];
-      } else if (extra.triggerNode?.props?.dataRef) {
-        newSelected = [extra.triggerNode.props.dataRef];
-      } else if (extra.triggerNode?.dataRef) {
-        newSelected = [extra.triggerNode.dataRef];
+      } else {
+        const triggerNode = extraObj.triggerNode as Record<string, unknown> | undefined;
+        const triggerProps = triggerNode?.props as Record<string, unknown> | undefined;
+        if (triggerProps?.dataRef) {
+          newSelected = [triggerProps.dataRef as T];
+        } else if (triggerNode?.dataRef) {
+          newSelected = [triggerNode.dataRef as T];
+        }
       }
     }
 
@@ -341,7 +359,7 @@ export function NpsInfiniteTreeSelect<T>({
     <TreeSelect
       showSearch
       filterTreeNode={false}
-      {...(props as any)}
+      {...props}
       value={value}
       onChange={handleChange}
       onSearch={handleSearch}

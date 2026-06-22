@@ -4,7 +4,6 @@ import {
   useRef,
   useState,
   type MouseEvent,
-  type ReactNode,
 } from "react";
 import { Anchor, Layout, Menu } from "antd";
 import { HistoryOutlined } from "@ant-design/icons";
