@@ -8,6 +8,10 @@ import {
   InfiniteAutoCompletePage,
   infiniteAutoCompleteAnchorItems,
 } from "./pages/components/infinite-auto-complete";
+import {
+  InfiniteTreeSelectPage,
+  infiniteTreeSelectAnchorItems,
+} from "./pages/components/infinite-tree-select";
 import { HomePage, homeAnchorItems } from "./pages/home";
 import { ChangelogPage, changelogAnchorItems } from "./pages/changelog";
 import type { PageConfig } from "./types/router";
@@ -25,6 +29,11 @@ const pageMap: Record<string, PageConfig> = {
     path: "/guide/getting-started",
     anchorItems: gettingStartedAnchorItems,
     content: <GettingStartedPage />,
+  },
+  "/components/infinite-tree-select": {
+    path: "/components/infinite-tree-select",
+    anchorItems: infiniteTreeSelectAnchorItems,
+    content: <InfiniteTreeSelectPage />,
   },
   "/components/infinite-auto-complete": {
     path: "/components/infinite-auto-complete",

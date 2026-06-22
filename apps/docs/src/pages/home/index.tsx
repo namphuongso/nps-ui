@@ -3,6 +3,7 @@ import { Typography, Button } from "antd";
 import { CodeBlock } from "../../components/docs/CodeBlock";
 import { SEO } from "../../components/docs/SEO";
 import { useTranslation } from "react-i18next";
+import { mockQueryFn } from "../../config/mockData";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -141,7 +142,12 @@ export function HomePage() {
           className="docs-preview-surface"
           style={{ justifyContent: "center", minHeight: 80 }}
         >
-          <NpsInfiniteAutoComplete />
+          <NpsInfiniteAutoComplete
+            queryKey={["home-list"]}
+            queryFn={mockQueryFn}
+            placeholder="Chọn component..."
+            style={{ width: "100%", maxWidth: 320 }}
+          />
         </div>
       </section>
 

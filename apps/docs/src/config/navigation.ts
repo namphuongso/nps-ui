@@ -15,6 +15,11 @@ export const GUIDE_NAV: NavItem[] = [
 
 export const COMPONENT_NAV: NavItem[] = [
   {
+    key: "/components/infinite-tree-select",
+    label: "InfiniteTreeSelect",
+    path: "/components/infinite-tree-select",
+  },
+  {
     key: "/components/infinite-auto-complete",
     label: "InfiniteAutoComplete",
     path: "/components/infinite-auto-complete",

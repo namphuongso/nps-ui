@@ -3,6 +3,7 @@ import { NpsInfiniteAutoComplete } from "@namphuongtechnologi/nps-ui";
 import { CodeBlock } from "../../components/docs/CodeBlock";
 import { SEO } from "../../components/docs/SEO";
 import { useTranslation } from "react-i18next";
+import { mockQueryFn } from "../../config/mockData";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -143,7 +144,12 @@ export function GettingStartedPage() {
                 {t("usage.previewDesc")}
               </Paragraph>
               <div className="docs-preview-surface">
-                <NpsInfiniteAutoComplete />
+                <NpsInfiniteAutoComplete
+                  queryKey={["getting-started-list"]}
+                  queryFn={mockQueryFn}
+                  placeholder="Chọn thành phần..."
+                  style={{ width: "100%", maxWidth: 320 }}
+                />
               </div>
             </div>
           </Col>

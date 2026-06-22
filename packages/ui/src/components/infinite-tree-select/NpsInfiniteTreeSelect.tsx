@@ -1,13 +1,11 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { Divider, Select, Spin, Typography } from "antd";
-import type { DefaultOptionType } from "antd/es/select";
+import { Divider, Spin, TreeSelect, Typography } from "antd";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
-import type { NpsInfiniteAutoCompleteProps } from "./types";
+import type { NpsInfiniteTreeSelectProps } from "./types";
 
 const { Text } = Typography;
 
-// Hàm helper để loại bỏ phần tử trùng lặp theo một key
 const uniqBy = <I,>(arr: I[], keyGetter: (item: I) => unknown): I[] => {
   const seen = new Set();
   return arr.filter((item) => {
@@ -18,11 +16,28 @@ const uniqBy = <I,>(arr: I[], keyGetter: (item: I) => unknown): I[] => {
   });
 };
 
+const extractValues = (val: unknown): (string | number)[] => {
+  if (val === undefined || val === null) return [];
+  if (Array.isArray(val)) {
+    return val.flatMap(extractValues);
+  }
+  if (typeof val === "object") {
+    const valObj = val as Record<string, unknown>;
+    if (
+      "value" in valObj &&
+      (typeof valObj.value === "string" || typeof valObj.value === "number")
+    ) {
+      return [valObj.value];
+    }
+  }
+  return [val as string | number];
+};
+
 /**
- * Component NpsInfiniteAutoComplete
- * Ô chọn tự động gợi ý với tính năng cuộn vô hạn, xây dựng trên Select của Ant Design và TanStack Query.
+ * Component NpsInfiniteTreeSelect
+ * Ô chọn dạng cây phân cấp (Tree Select) với tính năng cuộn vô hạn, được xây dựng trên TreeSelect của Ant Design và TanStack Query.
  */
-export function NpsInfiniteAutoComplete<T>({
+export function NpsInfiniteTreeSelect<T>({
   queryKey,
   queryFn,
   pageSize = 20,
@@ -42,6 +57,10 @@ export function NpsInfiniteAutoComplete<T>({
     const itemObj = item as Record<string, unknown>;
     return (itemObj?.value ?? itemObj?.id ?? "") as string | number;
   },
+  getChildren = (item: T) => {
+    const itemObj = item as Record<string, unknown>;
+    return itemObj?.children as T[] | undefined;
+  },
   editId,
   getEditQueryParams = (id) => {
     if (Array.isArray(id)) {
@@ -56,14 +75,14 @@ export function NpsInfiniteAutoComplete<T>({
   value,
   onChange,
   ...props
-}: NpsInfiniteAutoCompleteProps<T>) {
+}: NpsInfiniteTreeSelectProps<T>) {
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounce(searchValue, debounceTime);
 
-  // State cục bộ lưu lại các item đã được chọn (để giữ lại nhãn/label hiển thị ngay cả khi chuyển trang hoặc tìm kiếm)
+  // State cục bộ lưu lại các item đã được chọn (để giữ lại nhãn hiển thị khi lọc/phân trang)
   const [selectedItems, setSelectedItems] = useState<T[]>([]);
 
-  // Hàm xử lý parse dữ liệu cho chế độ edit, mặc định dùng getResponse nếu không được truyền
+  // Hàm xử lý parse dữ liệu cho chế độ edit
   const resolveEditResponse = getEditResponse || getResponse;
 
   // 1. Query lấy dữ liệu khi edit (khi truyền editId và cần hiển thị giá trị ban đầu)
@@ -75,7 +94,11 @@ export function NpsInfiniteAutoComplete<T>({
       const data = resolveEditResponse(response);
       return Array.isArray(data) ? data : [];
     },
-    enabled: !!queryFn && editId !== undefined && editId !== null && (Array.isArray(editId) ? editId.length > 0 : true),
+    enabled:
+      !!queryFn &&
+      editId !== undefined &&
+      editId !== null &&
+      (Array.isArray(editId) ? editId.length > 0 : true),
   });
 
   // 2. Query vô hạn dùng để load dữ liệu phân trang theo vị trí cuộn
@@ -101,7 +124,10 @@ export function NpsInfiniteAutoComplete<T>({
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const totalRecords = lastPage.totalRecord || 0;
-      const currentRecords = allPages.reduce((total, page) => total + (page.data?.length || 0), 0);
+      const currentRecords = allPages.reduce(
+        (total, page) => total + (page.data?.length || 0),
+        0
+      );
       return currentRecords < totalRecords ? allPages.length + 1 : undefined;
     },
     enabled: !!queryFn,
@@ -115,7 +141,7 @@ export function NpsInfiniteAutoComplete<T>({
     isFetchingNextPage,
   } = infiniteQuery;
 
-  // Dàn phẳng (flatten) dữ liệu từ các trang đã fetch thành một mảng duy nhất
+  // Dàn phẳng dữ liệu từ các trang đã fetch
   const flatData = useMemo(() => {
     return infiniteData?.pages.flatMap((page) => page.data || []) || [];
   }, [infiniteData]);
@@ -127,79 +153,149 @@ export function NpsInfiniteAutoComplete<T>({
     }
   }, [flatData, setFlatData]);
 
+  // Hàm đệ quy thu thập tất cả các nodes (bao gồm cả children) thành một danh sách phẳng
+  // để so khớp và lấy ra item được chọn từ bất cứ cấp nào trong cây.
+  const flattenTreeItems = useCallback(
+    (items: T[]): T[] => {
+      const result: T[] = [];
+      const traverse = (nodes: T[]) => {
+        for (const node of nodes) {
+          result.push(node);
+          const childs = getChildren(node);
+          if (Array.isArray(childs) && childs.length > 0) {
+            traverse(childs);
+          }
+        }
+      };
+      traverse(items);
+      return result;
+    },
+    [getChildren]
+  );
+
   // Đồng bộ và đưa các item đang được chọn vào state selectedItems dựa trên value hoặc editId
   useEffect(() => {
-    const currentValues = Array.isArray(value)
-      ? value
-      : value !== undefined && value !== null
-        ? [value]
-        : [];
-
-    const editValues = Array.isArray(editId)
-      ? editId
-      : editId !== undefined && editId !== null
-        ? [editId]
-        : [];
-
+    const currentValues = extractValues(value);
+    const editValues = extractValues(editId);
     const lookupValues = uniqBy([...currentValues, ...editValues], (v) => v);
-    if (lookupValues.length === 0) return;
 
-    const allAvailable = [...flatData, ...(editQuery.data || [])];
-    const matching = allAvailable.filter((item) => {
-      const itemVal = getValue(item);
-      return lookupValues.includes(itemVal);
-    });
+    setSelectedItems((prev) => {
+      // Lọc bỏ những phần tử không còn nằm trong tập giá trị hiện tại
+      const filtered = prev.filter((item) => lookupValues.includes(getValue(item)));
 
-    if (matching.length > 0) {
-      setSelectedItems((prev) => {
-        const merged = [...prev, ...matching];
-        return uniqBy(merged, getValue);
+      const allAvailable = flattenTreeItems([
+        ...flatData,
+        ...(editQuery.data || []),
+      ]);
+
+      const matching = allAvailable.filter((item) => {
+        const itemVal = getValue(item);
+        return lookupValues.includes(itemVal);
       });
-    }
-  }, [flatData, editQuery.data, value, editId, getValue]);
 
-  // Xây dựng danh sách options cho Select component
-  const options = useMemo(() => {
+      const merged = [...filtered, ...matching];
+      return uniqBy(merged, getValue);
+    });
+  }, [flatData, editQuery.data, value, editId, getValue, flattenTreeItems]);
+
+  // Hàm đệ quy map từ kiểu T sang dạng TreeDataNode của Ant Design
+  const mapToTreeData = useCallback(
+    (items: T[]): any[] => {
+      return items.map((item) => {
+        const val = getValue(item);
+        const label = getLabel(item);
+        const childrenRaw = getChildren(item);
+        const childrenMapped = Array.isArray(childrenRaw)
+          ? mapToTreeData(childrenRaw)
+          : undefined;
+
+        return {
+          value: val,
+          title: label,
+          label: label,
+          children: childrenMapped,
+          dataRef: item,
+        };
+      });
+    },
+    [getValue, getLabel, getChildren]
+  );
+
+  // Xây dựng danh sách treeData cho TreeSelect component
+  const treeData = useMemo(() => {
     const allRawData = [
       ...selectedItems,
       ...(editQuery.data || []),
       ...flatData,
     ];
 
-    const mapped = allRawData.map((item) => ({
-      label: getLabel(item),
-      value: getValue(item),
-      dataRef: item, // Giữ lại tham chiếu dữ liệu gốc cho callback
-    }));
+    // Thu thập tất cả các ID node con (descendants) để lọc bỏ chúng khỏi cấp ngoài cùng
+    const descendantIds = new Set<string | number>();
+    const collectDescendantIds = (items: T[]) => {
+      for (const item of items) {
+        const childs = getChildren(item);
+        if (Array.isArray(childs) && childs.length > 0) {
+          for (const child of childs) {
+            descendantIds.add(getValue(child));
+          }
+          collectDescendantIds(childs);
+        }
+      }
+    };
+    collectDescendantIds(allRawData);
 
+    // Chỉ giữ lại những node không phải là con của bất kỳ node nào khác trong danh sách gốc
+    const rootRawData = allRawData.filter((item) => !descendantIds.has(getValue(item)));
+
+    const mapped = mapToTreeData(rootRawData);
     const uniqOptions = uniqBy(mapped, (opt) => opt.value);
 
-    // Thêm các defaultItems vào đầu danh sách nếu không có từ khóa tìm kiếm
+    // Thêm các defaultItems vào đầu danh sách nếu ô tìm kiếm trống
     if (!debouncedSearch && defaultItems && defaultItems.length > 0) {
-      return uniqBy([...defaultItems, ...uniqOptions], (opt) => opt.value);
+      const mappedDefault = defaultItems.map((item) => ({
+        value: item.value,
+        title: item.label,
+        label: item.label,
+      }));
+      return uniqBy([...mappedDefault, ...uniqOptions], (opt) => opt.value);
     }
 
     return uniqOptions;
-  }, [selectedItems, editQuery.data, flatData, getLabel, getValue, debouncedSearch, defaultItems]);
+  }, [
+    selectedItems,
+    editQuery.data,
+    flatData,
+    mapToTreeData,
+    debouncedSearch,
+    defaultItems,
+    getChildren,
+    getValue,
+  ]);
 
-  // Xử lý sự kiện khi thay đổi giá trị hoặc chọn option
-  const handleChange = (val: unknown, option?: DefaultOptionType | DefaultOptionType[]) => {
-    if (option) {
-      const optionsArray = Array.isArray(option) ? option : [option];
-      const newSelected = optionsArray
-        .map((opt) => (opt as Record<string, unknown>).dataRef)
-        .filter(Boolean) as T[];
-
-      if (newSelected.length > 0) {
-        setSelectedItems((prev) => {
-          const merged = [...prev, ...newSelected];
-          return uniqBy(merged, getValue);
-        });
+  // Xử lý khi thay đổi giá trị hoặc chọn node trong cây
+  const handleChange = (val: unknown, labelList: any, extra: any) => {
+    let newSelected: T[] = [];
+    if (extra) {
+      if (Array.isArray(extra.allCheckedNodes)) {
+        newSelected = extra.allCheckedNodes
+          .map((n: any) => n.node?.dataRef || n.node?.props?.dataRef)
+          .filter(Boolean) as T[];
+      } else if (extra.triggerNode?.props?.dataRef) {
+        newSelected = [extra.triggerNode.props.dataRef];
+      } else if (extra.triggerNode?.dataRef) {
+        newSelected = [extra.triggerNode.dataRef];
       }
     }
 
+    if (newSelected.length > 0) {
+      setSelectedItems((prev) => {
+        const merged = [...prev, ...newSelected];
+        return uniqBy(merged, getValue);
+      });
+    }
+
     if (onChange) {
-      onChange(val, option);
+      onChange(val, labelList, extra);
     }
   };
 
@@ -213,8 +309,12 @@ export function NpsInfiniteAutoComplete<T>({
       const element = target as HTMLDivElement;
       const { scrollTop, scrollHeight, clientHeight } = element;
 
-      // Tự động load trang tiếp theo khi cuộn gần đến cuối danh sách (cách đáy 50px)
-      if (scrollHeight - scrollTop <= clientHeight + 50 && hasNextPage && !isFetchingNextPage) {
+      // Kích hoạt fetch trang tiếp theo khi cuộn gần đến cuối danh sách (cách đáy 50px)
+      if (
+        scrollHeight - scrollTop <= clientHeight + 50 &&
+        hasNextPage &&
+        !isFetchingNextPage
+      ) {
         fetchNextPage();
       }
     },
@@ -238,14 +338,14 @@ export function NpsInfiniteAutoComplete<T>({
   const isInitialLoading = isFetching && flatData.length === 0;
 
   return (
-    <Select
+    <TreeSelect
       showSearch
-      filterOption={false}
-      {...props}
+      filterTreeNode={false}
+      {...(props as any)}
       value={value}
       onChange={handleChange}
       onSearch={handleSearch}
-      options={options}
+      treeData={treeData}
       dropdownRender={dropdownRender}
       onPopupScroll={handlePopupScroll}
       notFoundContent={
@@ -264,13 +364,21 @@ export function NpsInfiniteAutoComplete<T>({
   );
 }
 
+NpsInfiniteTreeSelect.SHOW_PARENT = TreeSelect.SHOW_PARENT;
+NpsInfiniteTreeSelect.SHOW_ALL = TreeSelect.SHOW_ALL;
+NpsInfiniteTreeSelect.SHOW_CHILD = TreeSelect.SHOW_CHILD;
+
 interface PopupFooterProps {
   isFetchingNextPage: boolean;
   hasNextPage: boolean | undefined;
   hasData: boolean;
 }
 
-function PopupFooter({ isFetchingNextPage, hasNextPage, hasData }: PopupFooterProps) {
+function PopupFooter({
+  isFetchingNextPage,
+  hasNextPage,
+  hasData,
+}: PopupFooterProps) {
   if (isFetchingNextPage) {
     return (
       <>
