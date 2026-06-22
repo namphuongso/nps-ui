@@ -23,7 +23,33 @@ Tài liệu này hướng dẫn chi tiết cách phát triển, kiểm thử và
 
 ## 🧩 Quy trình phát triển Component mới
 
-Khi thêm một component mới (ví dụ: `Table`), hãy thực hiện đầy đủ **5 bước** sau:
+Để đơn giản hóa quy trình phát triển, dự án hỗ trợ một script tự động tạo nhanh cấu trúc chuẩn (scaffold) cho component mới và tự động đăng ký nó vào hệ thống thư viện cũng như website tài liệu:
+
+```bash
+# Cách 1: Chạy tương tác (nhập tên component khi được hỏi)
+npm run create-component
+
+# Cách 2: Chạy trực tiếp truyền tên component (hỗ trợ PascalCase hoặc kebab-case)
+npm run create-component Rating
+# hoặc:
+npm run create-component rating-bar
+```
+
+Script này sẽ tự động thực hiện các công việc sau:
+1. Tạo thư mục chuẩn tại `packages/ui/src/components/<tên-component>/` chứa các tệp mã nguồn cơ bản (`types.ts`, `Nps<TênComponent>.tsx`, `Nps<TênComponent>.test.tsx`, `index.ts`).
+2. Tạo thư mục tài liệu & tệp ngôn ngữ tương ứng tại `apps/docs/src/pages/components/<tên-component>/` (`index.tsx`, `locales.ts`).
+3. Đăng ký export component trong tệp chính của thư viện `packages/ui/src/index.ts`.
+4. Cấu hình điều hướng (routes) trang tài liệu trong `apps/docs/src/App.tsx`.
+5. Đăng ký dịch thuật (i18n) cho trang tài liệu trong `apps/docs/src/i18n/index.ts`.
+6. Cấu hình hiển thị liên kết trên thanh Menu tài liệu trong `apps/docs/src/config/navigation.ts`.
+
+Sau khi chạy xong, bạn chỉ cần tập trung phát triển logic component và chỉnh sửa trang tài liệu mà không cần bận tâm đến việc cấu hình các liên kết liên quan.
+
+---
+
+### 🔍 Quy trình chi tiết từng bước (Thủ công)
+
+Khi thêm một component mới, nếu bạn muốn thực hiện thủ công hoặc cần hiểu rõ các liên kết hoạt động như thế nào, hãy làm theo các bước dưới đây:
 
 ### Bước 1: Phát triển mã nguồn Component
 1. Tạo thư mục mới tại `packages/ui/src/components/table/`.
